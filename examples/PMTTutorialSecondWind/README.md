@@ -43,7 +43,8 @@ PlayStation can't write the Papyrus log or show debug lines.
 ## Build it yourself
 
 You need the .NET 9 SDK, Starfield on Steam with the Creation Kit installed (for its Papyrus compiler and
-Archive2), sf-mod-build 0.4.1 and sf-mod-check 0.15.2. Then, in this folder:
+Archive2), sf-mod-build 0.4.2 and sf-mod-check 0.16.2, the versions the guide uses. (The run recorded in
+WALKTHROUGH.md used the older sf-mod-build 0.4.1 and sf-mod-check 0.15.2.) Then, in this folder:
 
 ```
 sf-mod-build doctor
