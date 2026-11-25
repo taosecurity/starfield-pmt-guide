@@ -4,7 +4,7 @@
 
 ### What's new
 
-Update 2 of the guide. The comparison chart on the "compare" pages is now fully checked: every cell starts with Yes, No or Partly, no "Not checked" cells are left, and each answer comes from the tool's own code and documentation. The xEdit text now covers 4.1.5s. There are new pages and sections on sf-load-order 0.3.0 `sort` and its ordering rules: it builds a load order, moves as few plugins as it can, and never applies the order, so you follow `HOW-TO-APPLY.txt` yourself. The triage pages describe the sf-mod-check 0.17.0 field-by-field rows, including their limits: 200 rows per record (plus up to 200 more for the two translation kinds), 2,000 characters per value, and 10,000 rows in the whole report with real changes first. The guide now names sf-mod-check 0.17.0 and sf-load-order 0.3.0.
+Update 2 of the guide. It also collects two changes made on 2026-11-24, after the first version: the comparison chart on the "compare" pages became fully checked (every cell starts with Yes, No or Partly, no "Not checked" cells are left, and each answer comes from the tool's own code and documentation), and the xEdit text moved to 4.1.5s. The guide now covers sf-load-order 0.3.0 `sort` and its ordering rules: it builds a load order, moves as few plugins as it can, and never applies the order, so you follow `HOW-TO-APPLY.txt` yourself. The triage pages describe the sf-mod-check 0.17.0 field-by-field rows, including their limits: 200 rows per record (plus up to 200 more for the two translation kinds), 2,000 characters per value, and 10,000 rows in the whole report with real changes first. The guide now names sf-mod-check 0.17.0 and sf-load-order 0.3.0.
 
 ### Example
 
