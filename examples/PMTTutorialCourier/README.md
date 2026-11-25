@@ -8,7 +8,7 @@ A Courier's Request is the quest mod from the PMT guide's tutorial. It is a smal
 3. Stage 30: when you hold 5 Iron, the workshop pays you 100 credits, the quest completes (it moves to Completed in the Missions menu), and about 3 seconds later the HUD says so.
    You keep the Iron.
 
-- Version 0.1.1 (untested in game; it fixes two problems found in the play-test of 0.1.0, see CHANGELOG.md).
+- Version 0.1.1 passed its in-game test on 2026-11-24, by its log and its save. It fixes two problems found in the play-test of 0.1.0 (see CHANGELOG.md).
 - Plugin: `PMTTutorialCourier.esm`, a light master. Its only master is Starfield.esm.
 - It edits no vanilla records and places nothing in vanilla cells. It adds one quest (with one alias, the player),
   one note, one HUD message and a "Show Debug Messages (PC only)" switch in its own Gameplay Options group.
@@ -19,8 +19,8 @@ A Courier's Request is the quest mod from the PMT guide's tutorial. It is a smal
 
 Install `PMTTutorialCourier-0.1.1.zip` with Vortex or Mod Organizer 2, or copy `PMTTutorialCourier.esm` and
 `PMTTutorialCourier - Main.ba2` into the game's `Data` folder and add the plugin to your load order. A new
-character is the cleanest test. On a character who is already in New Atlantis, the quest starts the next time you
-arrive there.
+character is the cleanest test. On a character who is already in New Atlantis, the note arrives as soon as the mod
+loads.
 
 ## Settings
 

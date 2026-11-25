@@ -137,7 +137,8 @@ bytes with 3 records).
    `Mutagen.Bethesda.Starfield` at `[0.54.4]`. No code change was needed. The next build updates
    `Builder\packages.lock.json`. **Doc gap:** sf-mod-build 0.4.1's README and template still say "BuildKit 0.4.2 is
    the BuildKit version sf-mod-build 0.4.0 was tested with", and its AGENTS.md says not to change the pin unless the
-   person asks. Nothing says whether 0.5.0 is supported; it worked here.
+   person asks. Nothing says whether 0.5.0 is supported; it worked here. **Fixed in sf-mod-build 0.4.2:** its
+   template already pins BuildKit 0.5.0, so with 0.4.2 you skip this step.
 2. **The script.** Delete `Scripts\Source\PTSW\StarterQuestScript.psc` and add
    `Scripts\Source\PTSW\SecondWindQuestScript.psc` (in this folder). It keeps the starter's `Log()` function
    (`Debug.Trace` with the `[PTSW]` prefix, plus `Debug.Notification` only when the debug switch is on), registers
@@ -488,7 +489,8 @@ Exit code 0 for both.
    0.4.0". The release has only 0.4.1 files. (Confirms G16.)
 2. **The 0.4.1 starter template pins BuildKit 0.4.2**, and the README and AGENTS.md say not to change it, while
    BuildKit 0.5.0 (the release whose gap check runs the public sf-mod-check) is current. Moving the pin to 0.5.0
-   needed no code change. Owner: sf-mod-build (template and README).
+   needed no code change. Owner: sf-mod-build (template and README). Fixed in sf-mod-build 0.4.2, whose template
+   pins BuildKit 0.5.0.
 3. **The builder's output is hidden during `sf-mod-build build`** unless you add `--verbose`, so you can't see that
    BuildKit's gap check ran or what it changed. The README doesn't say so. Owner: sf-mod-build.
 4. **sf-papyrus-ref `check --creations` fails the starter template's own debug pattern**, even with the README's

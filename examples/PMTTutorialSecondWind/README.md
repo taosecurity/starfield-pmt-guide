@@ -4,7 +4,7 @@ Second Wind is the mechanics mod from the PMT guide's tutorial. When an enemy hi
 25 percent in combat, you regenerate 10 Health a second for 10 seconds, and the HUD says "Second wind!". It can
 happen once every 120 seconds.
 
-- Version 0.1.0 (untested in game).
+- Version 0.1.0 passed its in-game test on 2026-11-24.
 - Plugin: `PMTTutorialSecondWind.esm`, a light master. Its only master is Starfield.esm.
 - It edits no vanilla records. It adds one quest that starts with the game, one magic effect, one spell, one HUD
   message and a "Show Debug Messages (PC only)" switch in its own Gameplay Options group.

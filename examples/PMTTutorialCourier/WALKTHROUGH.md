@@ -40,7 +40,9 @@ Quest.Stop  (function)
 - **Script:** stage 30 now runs `CompleteQuest()`, then `Stop()`, then `Utility.Wait(DoneMessageDelay)` (3.0
   seconds, a new `Float Property` with a default, so the plugin needs no new property entry), then
   `PTCR_Msg_Done.Show()`. It logs "quest stopped, HUD line in 3.0 seconds" and "HUD line shown" with the `[PTCR]`
-  prefix. UNVERIFIED until the in-game test: that the wait and the message still run after `Stop()`.
+  prefix. The in-game test of 0.1.1 on 2026-11-24 confirmed that the wait and the message still run after
+  `Stop()`: the log shows the HUD line after the quest stopped, and the save shows the quest "stopped, completed,
+  stage 30".
 - **Records:** stage 30's journal entry now carries the "Complete Quest" flag
   (`QuestLogEntry.Flag.CompleteQuest`), the way the game's own quests do it. How that was checked: a throwaway
   program opened the Steam `Starfield.esm` with Mutagen 0.54.4 and counted the quests whose log entries carry the
@@ -84,7 +86,8 @@ The template "Starfield mod (sf-mod-build)" was created successfully.
 Exit code 0. Then, in `C:\Mods\PMTTutorialCourier`:
 
 1. In `Builder\PMTTutorialCourier.Builder.csproj`, change the BuildKit pin from `[0.4.2]` to `[0.5.0]` (as for
-   Second Wind).
+   Second Wind). This run used the 0.4.1 template. The sf-mod-build 0.4.2 template already pins BuildKit 0.5.0, so
+   with it you skip this step.
 2. Delete `Scripts\Source\PTCR\StarterQuestScript.psc` and add `CourierQuestScript.psc` and
    `CourierPlayerAliasScript.psc` (in `Scripts\Source\PTCR` in this folder).
 3. Replace `Builder\Program.cs` (in this folder).
@@ -101,7 +104,11 @@ All were looked up with `sf-papyrus-ref lookup <Script.Name>` after `build-local
 `Location.IsChild`, `Alias.GetOwningQuest` (Non-delayed), `Alias.OnAliasInit`, `Game.GetPlayer`, `Game.GetCredits`,
 `Message.Show` (Latent), `GameplayOption.GetValue`, `Quest.Stop` and `Utility.Wait` (Latent, added in 0.1.1), `Debug.Trace` and `Debug.Notification` (DebugOnly).
 
-Found only in your own Creation Kit sources, after `build-local`:
+With sf-papyrus-ref 0.2.4, `Quest.SetStage`, `Quest.GetStageDone`, `ReferenceAlias.OnLocationChange`,
+`ReferenceAlias.OnItemAdded` and `ReferenceAlias.OnRead` are on the shipped list: each `lookup <name> --no-local`
+exits 0 and prints "The official wiki has no page for this name; it is defined in the Creation Kit's script
+sources." (checked again on 2026-11-24). The rest of this section is the 0.1.0 run, made with sf-papyrus-ref 0.2.3,
+where those names were found only in your own Creation Kit sources, after `build-local`:
 
 ```
 sf-papyrus-ref lookup Quest.SetStage
@@ -124,7 +131,7 @@ Quest.SetStage: Not in the official list. It may be a script extender (SFSE) fun
 Did you mean: Quest.QuestStage, Quest.SetQuestStage, Quest.SetStageNoWait, Quest.SetCurrentStageID
 ```
 
-Exit code 1. **Doc gap:** for quest scripting, `build-local` isn't optional. The shipped list lacks `Quest.SetStage`
+Exit code 1 (sf-papyrus-ref 0.2.3; 0.2.4 fixed it). **Doc gap, fixed in 0.2.4:** with 0.2.3, for quest scripting, `build-local` wasn't optional. The shipped list lacks `Quest.SetStage`
 and `Quest.GetStageDone`, two of the most used quest functions, and an agent that follows AGENTS.md ("A name that
 comes back `found: false` ... Don't use it") would refuse them.
 
@@ -428,8 +435,8 @@ made after stage 30. (UNVERIFIED: the exact output; sf-save-reader 0.1.3 wasn't 
 - Trace lines: each stage writes one `[PTCR] stage <n>: ...` line, and the rule file turns them into PASS, FAIL or
   NOT SEEN.
 - Saves: `sf-save-reader quests ... --details` (above).
-- **UNVERIFIED until the in-game test:** that `OnRead` reaches the remote event for a note read from the inventory.
-  The note is a persistent reference (held in a script variable), and the game's own quests listen for `OnRead`
+- **Confirmed by the in-game test on 2026-11-24:** `OnRead` reaches the remote event for a note read from the
+  inventory (the stage 20 check passed without `setstage`). The note is a persistent reference (held in a script variable), and the game's own quests listen for `OnRead`
   the same way on aliases. If stage 20 doesn't start, the test plan says to use `setstage PTCR_Quest 20` and mark
   the step Fail.
 
