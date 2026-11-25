@@ -39,7 +39,7 @@ Quest.Stop  (function)
 
 - **Script:** stage 30 now runs `CompleteQuest()`, then `Stop()`, then `Utility.Wait(DoneMessageDelay)` (3.0
   seconds, a new `Float Property` with a default, so the plugin needs no new property entry), then
-  `PTCR_Msg_Done.Show()`. It logs "quest stopped, HUD line in 3.0 seconds" and "HUD line shown" with the `[PTCR]`
+  `PTCR_Msg_Done.Show()`. It logs "quest stopped, HUD line in 3.000000 seconds" (Papyrus writes a Float with six decimals) and "HUD line shown" with the `[PTCR]`
   prefix. The in-game test of 0.1.1 on 2026-11-24 confirmed that the wait and the message still run after
   `Stop()`: the log shows the HUD line after the quest stopped, and the save shows the quest "stopped, completed,
   stage 30".
