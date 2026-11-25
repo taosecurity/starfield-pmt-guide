@@ -79,24 +79,24 @@ This plan tests A Courier's Request (PMTTutorialCourier) 0.1.1, the quest mod fr
 
 ## 6 Drop the note before reading it
 
-The note is not a quest item, so you can drop, sell or store it. These checks try that. Use a new character for the first check, and reload a save from before you read the note for the second one.
+The note is not a quest item, so you can drop, sell or store it. These checks try that. Use a new character, and make a save when the note arrives, before you drop or read it: checks 3, 4 and 5 of this section reload that save.
 
-- [ ] On a new character, when the note arrives, open your inventory and drop it without reading it.
+- [ ] On a new character, when the note arrives, save the game first. Then open your inventory and drop the note without reading it.
   Expect: the note lies on the ground near you, and the objective stays at "Read the courier's note".
-  note: The script places the note as a disabled reference before adding it to your inventory, so a dropped note may stay invisible. If you can't see the note on the ground, mark this check Fail (that is the suspected bug) and type `setstage PTCR_Quest 20` to go on.
+  note: The script places the note as a disabled reference before adding it to your inventory, so a dropped note may stay invisible. If you can't see the note on the ground, mark this check Fail (that is the suspected bug), mark checks 2, 3 and 4 of this section Skip, because they need the note on the ground, and go on to check 5 from your save.
 - [ ] Pick the note up again and read it from your inventory.
   Expect: the note's text asks for 5 Iron, and "Collect 5 Iron" appears.
   log: onread, stage-20
-- [ ] Reload a save from before you read the note, drop the note again, and read it from the ground by activating it, without picking it up.
+- [ ] Reload the save you made when the note arrived, drop the note again, and read it from the ground by activating it, without picking it up.
   Expect: the note's text shows, stage 20 starts and "Collect 5 Iron" appears.
   log: onread, stage-20
   note: If activating the note from the ground doesn't start stage 20, mark this check Fail, pick the note up and read it from your inventory to go on.
 - [ ] Reload the same save, drop the note, leave New Atlantis and come back.
   Expect: the note is still where you dropped it, and reading it still starts stage 20.
   log: onread, stage-20
-- [ ] Reload the same save and sell the note to a vendor, or put it in a container you can't reach, before you read it.
-  Expect: the quest stays at stage 10, because the quest only counts a read of the note it created. This is a known limit of the tutorial, not a bug. Mark the result as a known limit, then type `setstage PTCR_Quest 20` to go on.
-  note: Type `getstage PTCR_Quest` first; it should say 10. If the quest moved on by itself, mark this check Fail and say how you got rid of the note.
+- [ ] Reload the same save and sell the note to a vendor, or put it in a container you won't come back to, before you read it.
+  Expect: the quest stays at stage 10, because you no longer have the note to read and the quest makes no second copy. This is a known limit of the tutorial, not a bug: mark this check Pass if the quest stays at stage 10, then type `setstage PTCR_Quest 20` to go on.
+  note: Type `getstage PTCR_Quest` first; it should say 10. Don't buy the note back or take it out again: reading it would start stage 20. If the quest moved on without a read, mark this check Fail and say how you got rid of the note.
 
 ## 7 Save and load
 
