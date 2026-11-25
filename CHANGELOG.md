@@ -8,11 +8,11 @@ Update 3 of the guide covers the day's tool releases. sf-mod-check 0.19.0 checks
 
 ### Example
 
-Check the quest stages of the tutorial quest A Courier's Request with sf-mod-check 0.19.0. With `--verbose`, the log shows each stage and what sets it. These lines come from a run on the tutorial's 0.1.2 plugin on 2026-11-25 (the other log lines left out):
+Check the quest stages of the tutorial quest A Courier's Request with sf-mod-check 0.19.0. With `--verbose`, the log shows each stage and what sets it. These lines come from a run on the tutorial's 0.1.1 plugin on 2026-11-25 (the other log lines left out):
 
     > sf-mod-check check dist\PMTTutorialCourier.esm --verbose
     log: quest stages: PTCR_Quest [QUST:000802:PMTTutorialCourier.esm]: 3 stage(s), 3 set, unset: none
-    RESULT: OK, 0 errors, 0 warnings (PMTTutorialCourier.esm: 5 records, 14 links; 4.3 s)
+    RESULT: OK, 0 errors, 0 warnings (PMTTutorialCourier.esm: 5 records, 13 links; 4.0 s)
 
 ## 2026-11-25
 
