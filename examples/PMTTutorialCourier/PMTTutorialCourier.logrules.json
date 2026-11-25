@@ -1,0 +1,21 @@
+{
+ "mod": "PMTTutorialCourier",
+ "version": "0.1.1",
+ "plugins": ["PMTTutorialCourier.esm"],
+ "prefix": "\\[PTCR\\]",
+ "scripts": "PTCR:",
+ "expect": [
+  {"id": "started", "re": "(?i)\\[PTCR\\] started", "means": "Step 1.1: Start a new game and finish the character creator.; Step L.1: The quest script started at the beginning of the game."},
+  {"id": "stage-10", "re": "(?i)\\[PTCR\\] stage 10: note given", "means": "Step 2.1: Play until you first arrive in New Atlantis (or land at the New Atlantis spaceport later in the game)."},
+  {"id": "onread", "re": "(?i)\\[PTCR\\] OnRead from", "means": "Step 3.1: Read the note from your inventory (Inventory > Notes, then Read)."},
+  {"id": "stage-20", "re": "(?i)\\[PTCR\\] stage 20: note read", "means": "Step 3.1: Read the note from your inventory (Inventory > Notes, then Read)."},
+  {"id": "iron-check", "re": "(?i)\\[PTCR\\] Iron check: \\d+ of 5", "means": "Step 4.1: Pick up Iron until you hold 5 (or type player.additem 0000556E 5 in the console)."},
+  {"id": "stage-30", "re": "(?i)\\[PTCR\\] stage 30: 100 credits paid", "means": "Step 4.1: Pick up Iron until you hold 5 (or type player.additem 0000556E 5 in the console).; Step 5.1: On a second new character, pick up 5 Iron before you reach New Atlantis, then arrive and read the note."},
+  {"id": "stage-30-stopped", "re": "(?i)\\[PTCR\\] stage 30: quest stopped, HUD line in", "means": "Step 4.3: Open the Missions menu and look at the Completed tab."},
+  {"id": "stage-30-hud", "re": "(?i)\\[PTCR\\] stage 30: HUD line shown", "means": "Step 4.2: Watch the HUD for about 5 seconds after the reward."}
+ ],
+ "order": [["started", "stage-10", "stage-20", "stage-30", "stage-30-stopped", "stage-30-hud"]],
+ "forbid": [
+  {"id": "no-script-errors", "re": "(?i)error:.*PTCR:", "means": "Step L.2: No Papyrus error names a PTCR script."}
+ ]
+}

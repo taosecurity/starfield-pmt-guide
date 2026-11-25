@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Guardrails for AI use | PMT guide</title>
+<meta name="description" content="This page lists the rules to keep when an AI agent runs PMT tools for you.">
+<link rel="canonical" href="https://taosecurity.github.io/starfield-pmt-guide/appendix/guardrails.html">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="rail" aria-label="Guide pages">
+    <details class="rail-d" open>
+      <summary>Menu</summary>
+      <div class="rail-inner">
+<ul><li><a href="#top">Top</a></li></ul>
+<p class="grp">Home</p><ul style="--h:215"><li><a class="edge" href="../index.html">Home</a></li></ul>
+<p class="grp">Getting started</p><ul style="--h:25"><li><a class="edge" href="../start.html">Getting started</a></li></ul>
+<p class="grp">Part 1: Manual</p><ul style="--h:160"><li><a class="edge" href="../manual/index.html">Part 1: Manual</a></li></ul>
+<p class="grp">Part 1: For players</p><ul style="--h:265"><li><a class="edge" href="../manual/p1-load-order.html">P1. Load order</a></li><li><a class="edge" href="../manual/p2-evaluate-mod.html">P2. Evaluate a mod</a></li><li><a class="edge" href="../manual/p3-conflicts-patch.html">P3. Conflicts and patch</a></li><li><a class="edge" href="../manual/p4-more-players.html">P4. Saves and bug reports</a></li><li><a class="edge" href="../manual/p5-compare.html">P5. Compare</a></li></ul>
+<p class="grp">Part 1: For modders</p><ul style="--h:35"><li><a class="edge" href="../manual/m1-fix-mod.html">M1. Fix a mod</a></li><li><a class="edge" href="../manual/m2-extend-mod.html">M2. Extend a mod</a></li><li><a class="edge" href="../manual/m3-mechanics-mod.html">M3. Mechanics mod</a></li><li><a class="edge" href="../manual/m4-quest-mod.html">M4. Quest mod</a></li><li><a class="edge" href="../manual/m5-test-debug.html">M5. Test and debug</a></li><li><a class="edge" href="../manual/m6-release.html">M6. Release</a></li><li><a class="edge" href="../manual/m7-more-modders.html">M7. More tools</a></li></ul>
+<p class="grp">Part 2: AI-assisted</p><ul style="--h:190"><li><a class="edge" href="../ai/index.html">Part 2: AI-assisted</a></li><li><a class="edge" href="../ai/setup.html">Set up an agent</a></li></ul>
+<p class="grp">Part 2: For players</p><ul style="--h:320"><li><a class="edge" href="../ai/p1-load-order.html">P1. Load order</a></li><li><a class="edge" href="../ai/p2-evaluate-mod.html">P2. Evaluate a mod</a></li><li><a class="edge" href="../ai/p3-conflicts-patch.html">P3. Conflicts and patch</a></li><li><a class="edge" href="../ai/p4-more-players.html">P4. Saves and bug reports</a></li><li><a class="edge" href="../ai/p5-compare.html">P5. Compare</a></li></ul>
+<p class="grp">Part 2: For modders</p><ul style="--h:80"><li><a class="edge" href="../ai/m1-fix-mod.html">M1. Fix a mod</a></li><li><a class="edge" href="../ai/m2-extend-mod.html">M2. Extend a mod</a></li><li><a class="edge" href="../ai/m3-mechanics-mod.html">M3. Mechanics mod</a></li><li><a class="edge" href="../ai/m4-quest-mod.html">M4. Quest mod</a></li><li><a class="edge" href="../ai/m5-test-debug.html">M5. Test and debug</a></li><li><a class="edge" href="../ai/m6-release.html">M6. Release</a></li><li><a class="edge" href="../ai/m7-more-modders.html">M7. More tools</a></li></ul>
+<p class="grp">Appendix</p><ul style="--h:215"><li><a class="edge" href="tools.html">Other free tools</a></li><li><a class="edge cur" aria-current="page" href="guardrails.html">Guardrails</a></li><li><a class="edge" href="glossary.html">Glossary</a></li><li><a class="edge" href="report-problem.html">Report a problem</a></li></ul>
+      </div>
+    </details>
+  </nav>
+  <main>
+    <div class="col">
+      <header class="intro" id="top">
+        <p class="eyebrow">Appendix</p>
+        <div class="titlebar"><h1>Guardrails for AI use</h1></div>
+        <p class="byline">By <a href="https://github.com/taosecurity" target="_blank" rel="noopener">Richard Bejtlich</a>, <a href="https://www.youtube.com/@RichardBejtlich" target="_blank" rel="noopener">Richard Presents Starfield Essentials</a> on YouTube</p>
+        <p class="byline">More Starfield tools and references are on the <a href="https://taosecurity.github.io/">Richard Presents Development Hub</a>.</p>
+        
+        <aside class="summary" aria-label="Summary"><div class="ct">Summary</div><p>This page lists the rules to keep when an AI agent runs PMT tools for you. The main ones are never sharing game code, making the agent ask before it changes anything or sends anything out, and checking every claim against the tool&#x27;s own report. It also explains what an agent&#x27;s service can see.</p></aside>
+        <nav class="toc" aria-label="On this page"><div class="ct">On this page</div><ul><li><a href="#never-share-game-code">Never share game code</a></li><li><a href="#ask-before-changing-anything">Ask before changing anything</a></li><li><a href="#check-every-claim">Check every claim</a></li><li><a href="#the-agent-cant-play-the-game">The agent can&#x27;t play the game</a></li><li><a href="#privacy">Privacy</a></li></ul></nav>
+      </header>
+
+<p>These rules apply to every agent, and to you. The starfield-agent plugin enforces some of them with two guards, but other agents follow only what you tell them and what each tool&#x27;s AGENTS.md says.</p>
+<section class="s cat" id="never-share-game-code" style="--h:215"><h2>Never share game code</h2><ul><li>Never put game code in a message to an agent, a repository, a release, an issue or a post. That means game executables, decompiled code, extracted game files and official script source (<code>.psc</code> files from Bethesda).</li><li>Share symbol names, record names and descriptions of formats instead.</li><li>Never publish the output of <code>sf-papyrus-ref html</code>, its local cache, or anything unpacked with <code>ba2_extract.py</code>. They hold Bethesda&#x27;s content.</li><li>starfield-agent&#x27;s game-code guard refuses <code>git add</code>, <code>git commit</code>, <code>git push</code> and some <code>gh</code> upload commands that would carry such files. Don&#x27;t turn it off to finish a task.</li></ul></section>
+<section class="s cat" id="ask-before-changing-anything" style="--h:25"><h2>Ask before changing anything</h2><ul><li>The agent asks before it changes a load order, <code>Plugins.txt</code>, the game&#x27;s Data folder or your saves. The PMT checking tools only read and report, and you apply any suggested change yourself, after a backup.</li><li>The agent asks before any upload, push, release or post. Uploading to Nexus Mods or Creations is always your step.</li><li>The agent asks permission before it changes another author&#x27;s mod, and you keep the author&#x27;s reply.</li><li>starfield-agent&#x27;s game guard refuses changes to the Data folder, the saves folder, <code>Plugins.txt</code> and <code>ContentCatalog.txt</code>. Never disable a guard to get a task done. If a guard refuses something it should allow, report it (see <a href="report-problem.html">Report a problem</a>).</li></ul></section>
+<section class="s cat" id="check-every-claim" style="--h:160"><h2>Check every claim</h2><ul><li>Ask for the report line behind each claim: the <code>RESULT:</code> line, the exit code or the report file and line.</li><li>An exit code of 0 doesn&#x27;t mean a save or a mod is safe. Read what the report says it did not check.</li><li>Triage shows where to start reading. It never says a mod is safe or unsafe, and an agent must not say so either.</li><li>Look up Papyrus function names with sf-papyrus-ref instead of trusting the agent&#x27;s memory.</li></ul></section>
+<section class="s cat" id="the-agent-cant-play-the-game" style="--h:265"><h2>The agent can&#x27;t play the game</h2><ul><li>An agent can&#x27;t launch Starfield and play it, and it can&#x27;t see your screen unless you share one.</li><li>You play, you mark each test step and you tell the agent what happened. The agent reads the logs afterward.</li><li>Console testing is by hand.</li></ul></section>
+<section class="s cat" id="privacy" style="--h:35"><h2>Privacy</h2><ul><li>The PMT tools make no network calls. The agent&#x27;s service does see what the agent reads: file names, report text and log text.</li><li>Don&#x27;t let the agent read what you wouldn&#x27;t share. Logs and reports can hold your Windows user name, your computer name and your folder names.</li><li>Where a tool has <code>--redact</code> (sf-save-health and sf-save-reader do), add it to any run whose output will leave your PC. In sf-save-health it hides the character name, the Windows user, the computer name and the profile folder. In sf-save-reader it hides the player name and the save&#x27;s file name. Plugin names and quest names stay in both.</li><li>sf-log-collector redacts only when you add <code>-Redact</code> (or answer yes when the double-click run asks). Even then, saves, screenshots and file names stay as they are. Open the zip and read it before you post it or let an agent read it.</li><li>Keep backups of anything an agent might change, and keep your own permission records.</li><li>Read your own logs and reports before posting them anywhere.</li></ul></section>
+
+      
+      <footer>Built 2026-11-24. Source and issues: <a href="https://github.com/taosecurity/starfield-pmt-guide" target="_blank" rel="noopener">github.com/taosecurity/starfield-pmt-guide</a>. This is an unofficial guide, not made or endorsed by Bethesda. Starfield is a trademark of ZeniMax Media.</footer>
+    </div>
+  </main>
+</div>
+<script src="../assets/site.js"></script>
+</body>
+</html>

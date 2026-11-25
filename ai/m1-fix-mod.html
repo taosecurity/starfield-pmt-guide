@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fix what an evaluation found with an agent | PMT guide</title>
+<meta name="description" content="Your agent runs sf-mod-check, explains each finding, and for a mod you build from code, changes the builder and re-runs the same check until it is clean.">
+<link rel="canonical" href="https://taosecurity.github.io/starfield-pmt-guide/ai/m1-fix-mod.html">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="rail" aria-label="Guide pages">
+    <details class="rail-d" open>
+      <summary>Menu</summary>
+      <div class="rail-inner">
+<ul><li><a href="#top">Top</a></li></ul>
+<p class="grp">Home</p><ul style="--h:215"><li><a class="edge" href="../index.html">Home</a></li></ul>
+<p class="grp">Getting started</p><ul style="--h:25"><li><a class="edge" href="../start.html">Getting started</a></li></ul>
+<p class="grp">Part 1: Manual</p><ul style="--h:160"><li><a class="edge" href="../manual/index.html">Part 1: Manual</a></li></ul>
+<p class="grp">Part 1: For players</p><ul style="--h:265"><li><a class="edge" href="../manual/p1-load-order.html">P1. Load order</a></li><li><a class="edge" href="../manual/p2-evaluate-mod.html">P2. Evaluate a mod</a></li><li><a class="edge" href="../manual/p3-conflicts-patch.html">P3. Conflicts and patch</a></li><li><a class="edge" href="../manual/p4-more-players.html">P4. Saves and bug reports</a></li><li><a class="edge" href="../manual/p5-compare.html">P5. Compare</a></li></ul>
+<p class="grp">Part 1: For modders</p><ul style="--h:35"><li><a class="edge" href="../manual/m1-fix-mod.html">M1. Fix a mod</a></li><li><a class="edge" href="../manual/m2-extend-mod.html">M2. Extend a mod</a></li><li><a class="edge" href="../manual/m3-mechanics-mod.html">M3. Mechanics mod</a></li><li><a class="edge" href="../manual/m4-quest-mod.html">M4. Quest mod</a></li><li><a class="edge" href="../manual/m5-test-debug.html">M5. Test and debug</a></li><li><a class="edge" href="../manual/m6-release.html">M6. Release</a></li><li><a class="edge" href="../manual/m7-more-modders.html">M7. More tools</a></li></ul>
+<p class="grp">Part 2: AI-assisted</p><ul style="--h:190"><li><a class="edge" href="index.html">Part 2: AI-assisted</a></li><li><a class="edge" href="setup.html">Set up an agent</a></li></ul>
+<p class="grp">Part 2: For players</p><ul style="--h:320"><li><a class="edge" href="p1-load-order.html">P1. Load order</a></li><li><a class="edge" href="p2-evaluate-mod.html">P2. Evaluate a mod</a></li><li><a class="edge" href="p3-conflicts-patch.html">P3. Conflicts and patch</a></li><li><a class="edge" href="p4-more-players.html">P4. Saves and bug reports</a></li><li><a class="edge" href="p5-compare.html">P5. Compare</a></li></ul>
+<p class="grp">Part 2: For modders</p><ul style="--h:80"><li><a class="edge cur" aria-current="page" href="m1-fix-mod.html">M1. Fix a mod</a></li><li><a class="edge" href="m2-extend-mod.html">M2. Extend a mod</a></li><li><a class="edge" href="m3-mechanics-mod.html">M3. Mechanics mod</a></li><li><a class="edge" href="m4-quest-mod.html">M4. Quest mod</a></li><li><a class="edge" href="m5-test-debug.html">M5. Test and debug</a></li><li><a class="edge" href="m6-release.html">M6. Release</a></li><li><a class="edge" href="m7-more-modders.html">M7. More tools</a></li></ul>
+<p class="grp">Appendix</p><ul style="--h:215"><li><a class="edge" href="../appendix/tools.html">Other free tools</a></li><li><a class="edge" href="../appendix/guardrails.html">Guardrails</a></li><li><a class="edge" href="../appendix/glossary.html">Glossary</a></li><li><a class="edge" href="../appendix/report-problem.html">Report a problem</a></li></ul>
+      </div>
+    </details>
+  </nav>
+  <main>
+    <div class="col">
+      <header class="intro" id="top">
+        <p class="eyebrow">Part 2: For modders</p>
+        <div class="titlebar"><h1>Fix what an evaluation found with an agent</h1><a class="mirror" href="../manual/m1-fix-mod.html">Do this by hand</a></div>
+        <p class="byline">By <a href="https://github.com/taosecurity" target="_blank" rel="noopener">Richard Bejtlich</a>, <a href="https://www.youtube.com/@RichardBejtlich" target="_blank" rel="noopener">Richard Presents Starfield Essentials</a> on YouTube</p>
+        <p class="byline">More Starfield tools and references are on the <a href="https://taosecurity.github.io/">Richard Presents Development Hub</a>.</p>
+        
+        <aside class="summary" aria-label="Summary"><div class="ct">Summary</div><p>Your agent runs sf-mod-check, explains each finding, and for a mod you build from code, changes the builder and re-runs the same check until it is clean. It can&#x27;t edit a plugin in xEdit or the Creation Kit for you. If the mod is someone else&#x27;s, the agent asks about permission before it does anything.</p></aside>
+        <nav class="toc" aria-label="On this page"><div class="ct">On this page</div><ul><li><a href="#what-to-ask">What to ask</a></li><li><a href="#what-the-agent-runs">What the agent runs</a></li><li><a href="#what-you-check">What you check</a></li><li><a href="#what-stays-your-decision">What stays your decision</a></li><li><a href="#for-ck-and-xedit-authors">For CK and xEdit authors</a></li><li><a href="#for-code-builders">For code builders</a></li></ul></nav>
+      </header>
+
+<section class="s cat" id="what-to-ask" style="--h:215"><h2>What to ask</h2><div class="cmd cmd-ask"><div class="cmdh"><span class="lab">Ask your agent</span><button class="copy" type="button" aria-label="Copy this Ask your agent block">Copy</button></div><pre><code>Run sf-mod-check check on MyMod.esm and explain each finding in plain words. Point to the record each one names.</code></pre></div><div class="cmd cmd-ask"><div class="cmdh"><span class="lab">Ask your agent</span><button class="copy" type="button" aria-label="Copy this Ask your agent block">Copy</button></div><pre><code>Fix the problems in my builder, rebuild, and run the same check again. Tell me the RESULT line each time.</code></pre></div><div class="cmd cmd-ask"><div class="cmdh"><span class="lab">Ask your agent</span><button class="copy" type="button" aria-label="Copy this Ask your agent block">Copy</button></div><pre><code>This mod is by another author. Before you change anything, tell me what permission I need and what to credit.</code></pre></div></section>
+<section class="s cat" id="what-the-agent-runs" style="--h:25"><h2>What the agent runs</h2><p>The skills <code>evaluate-mod</code>, <code>rebuild-mod</code> and <code>build-mod</code> of starfield-agent cover this task. <code>rebuild-mod</code> handles another author&#x27;s mod and asks about permission first. Other agents follow sf-mod-check&#x27;s AGENTS.md and sf-mod-build&#x27;s AGENTS.md. The commands match the <a href="../manual/m1-fix-mod.html">manual page</a>.</p><div class="cmd cmd-cmd"><div class="cmdh"><span class="lab">Command Prompt</span><button class="copy" type="button" aria-label="Copy this Command Prompt block">Copy</button></div><pre><code>sf-mod-check check MyMod.esm</code></pre></div><div class="cmd cmd-cmd"><div class="cmdh"><span class="lab">Command Prompt</span><button class="copy" type="button" aria-label="Copy this Command Prompt block">Copy</button></div><pre><code>sf-mod-check release MyMod-1.0.0.zip</code></pre></div><div class="cmd cmd-cmd"><div class="cmdh"><span class="lab">Command Prompt</span><button class="copy" type="button" aria-label="Copy this Command Prompt block">Copy</button></div><pre><code>sf-mod-check triage SomeMod-1.2.0.zip</code></pre></div><div class="cmd cmd-cmd"><div class="cmdh"><span class="lab">Command Prompt</span><button class="copy" type="button" aria-label="Copy this Command Prompt block">Copy</button></div><pre><code>sf-mod-check gap MyMod.esm</code></pre></div><div class="cmd cmd-cmd"><div class="cmdh"><span class="lab">Command Prompt</span><button class="copy" type="button" aria-label="Copy this Command Prompt block">Copy</button></div><pre><code>sf-mod-check diff SomeMod-1.1.0.zip SomeMod-1.2.0.zip</code></pre></div><div class="cmd cmd-cmd"><div class="cmdh"><span class="lab">Command Prompt</span><button class="copy" type="button" aria-label="Copy this Command Prompt block">Copy</button></div><pre><code>sf-mod-build build</code></pre></div></section>
+<section class="s cat" id="what-you-check" style="--h:160"><h2>What you check</h2><ul><li><strong>The RESULT line and the exit code.</strong> Don&#x27;t accept &quot;it&#x27;s fixed&quot; without them. Exit 0 means no errors for <code>check</code> and OK for <code>release</code>.</li><li><strong>The same command each time.</strong> Ask the agent to rerun the exact command that found the problem, not a different one that passes.</li><li><strong>The finding level.</strong> ERROR and PROBLEM must be fixed. WARNING and REVIEW are for you to judge.</li><li><strong>Triage.</strong> The agent must call it &quot;where to start reading&quot;, never a safety verdict, and must not report a bug to an author from triage alone.</li><li><strong>What changed.</strong> For a code build, ask for the diff of the builder, so you see what the agent touched.</li></ul></section>
+<section class="s cat" id="what-stays-your-decision" style="--h:265"><h2>What stays your decision</h2><ul><li>Whether to fix someone else&#x27;s mod at all, and whether the author has agreed. The agent asks, and you keep their reply.</li><li>Whether to share a fixed version, and how to credit the author.</li><li>Which findings you accept. The agent can suggest <code>--accept</code>, and you decide.</li><li>Any edit in xEdit or the Creation Kit, because an agent can&#x27;t drive those windows. Cleaning ITMs, undeleting and renumbering are yours.</li></ul></section>
+<section class="s cat" id="for-ck-and-xedit-authors" style="--h:35"><h2>For CK and xEdit authors</h2><p>The agent can read the findings, tell you which record to open and what is probably wrong, and run the check again after you save. It can&#x27;t edit the plugin, so you make the fix.</p></section>
+<section class="s cat" id="for-code-builders" style="--h:190"><h2>For code builders</h2><p>The agent can change your builder, rebuild with <code>sf-mod-build build</code> and run <code>check</code> and <code>gap</code> on the result. Review its changes before you keep them, and tell it to match how the game&#x27;s own records do it.</p><p>Read the <a href="../appendix/guardrails.html">guardrails</a> before you let an agent act on your files.</p></section>
+
+      <p class="mirror-end"><a class="mirror" href="../manual/m1-fix-mod.html">Do this by hand</a></p>
+      <footer>Built 2026-11-24. Source and issues: <a href="https://github.com/taosecurity/starfield-pmt-guide" target="_blank" rel="noopener">github.com/taosecurity/starfield-pmt-guide</a>. This is an unofficial guide, not made or endorsed by Bethesda. Starfield is a trademark of ZeniMax Media.</footer>
+    </div>
+  </main>
+</div>
+<script src="../assets/site.js"></script>
+</body>
+</html>

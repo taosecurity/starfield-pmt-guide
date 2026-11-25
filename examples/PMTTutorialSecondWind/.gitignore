@@ -1,0 +1,7 @@
+bin/
+obj/
+.build/
+dist/
+creations-out/
+*.zip
+.vs/

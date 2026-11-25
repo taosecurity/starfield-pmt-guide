@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Part 2: AI-assisted (Human Developed, Agent Programmed) | PMT guide</title>
+<meta name="description" content="Part 2 shows how to have an AI agent run the PMT tools while you make the decisions.">
+<link rel="canonical" href="https://taosecurity.github.io/starfield-pmt-guide/ai/index.html">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="rail" aria-label="Guide pages">
+    <details class="rail-d" open>
+      <summary>Menu</summary>
+      <div class="rail-inner">
+<ul><li><a href="#top">Top</a></li></ul>
+<p class="grp">Home</p><ul style="--h:215"><li><a class="edge" href="../index.html">Home</a></li></ul>
+<p class="grp">Getting started</p><ul style="--h:25"><li><a class="edge" href="../start.html">Getting started</a></li></ul>
+<p class="grp">Part 1: Manual</p><ul style="--h:160"><li><a class="edge" href="../manual/index.html">Part 1: Manual</a></li></ul>
+<p class="grp">Part 1: For players</p><ul style="--h:265"><li><a class="edge" href="../manual/p1-load-order.html">P1. Load order</a></li><li><a class="edge" href="../manual/p2-evaluate-mod.html">P2. Evaluate a mod</a></li><li><a class="edge" href="../manual/p3-conflicts-patch.html">P3. Conflicts and patch</a></li><li><a class="edge" href="../manual/p4-more-players.html">P4. Saves and bug reports</a></li><li><a class="edge" href="../manual/p5-compare.html">P5. Compare</a></li></ul>
+<p class="grp">Part 1: For modders</p><ul style="--h:35"><li><a class="edge" href="../manual/m1-fix-mod.html">M1. Fix a mod</a></li><li><a class="edge" href="../manual/m2-extend-mod.html">M2. Extend a mod</a></li><li><a class="edge" href="../manual/m3-mechanics-mod.html">M3. Mechanics mod</a></li><li><a class="edge" href="../manual/m4-quest-mod.html">M4. Quest mod</a></li><li><a class="edge" href="../manual/m5-test-debug.html">M5. Test and debug</a></li><li><a class="edge" href="../manual/m6-release.html">M6. Release</a></li><li><a class="edge" href="../manual/m7-more-modders.html">M7. More tools</a></li></ul>
+<p class="grp">Part 2: AI-assisted</p><ul style="--h:190"><li><a class="edge cur" aria-current="page" href="index.html">Part 2: AI-assisted</a></li><li><a class="edge" href="setup.html">Set up an agent</a></li></ul>
+<p class="grp">Part 2: For players</p><ul style="--h:320"><li><a class="edge" href="p1-load-order.html">P1. Load order</a></li><li><a class="edge" href="p2-evaluate-mod.html">P2. Evaluate a mod</a></li><li><a class="edge" href="p3-conflicts-patch.html">P3. Conflicts and patch</a></li><li><a class="edge" href="p4-more-players.html">P4. Saves and bug reports</a></li><li><a class="edge" href="p5-compare.html">P5. Compare</a></li></ul>
+<p class="grp">Part 2: For modders</p><ul style="--h:80"><li><a class="edge" href="m1-fix-mod.html">M1. Fix a mod</a></li><li><a class="edge" href="m2-extend-mod.html">M2. Extend a mod</a></li><li><a class="edge" href="m3-mechanics-mod.html">M3. Mechanics mod</a></li><li><a class="edge" href="m4-quest-mod.html">M4. Quest mod</a></li><li><a class="edge" href="m5-test-debug.html">M5. Test and debug</a></li><li><a class="edge" href="m6-release.html">M6. Release</a></li><li><a class="edge" href="m7-more-modders.html">M7. More tools</a></li></ul>
+<p class="grp">Appendix</p><ul style="--h:215"><li><a class="edge" href="../appendix/tools.html">Other free tools</a></li><li><a class="edge" href="../appendix/guardrails.html">Guardrails</a></li><li><a class="edge" href="../appendix/glossary.html">Glossary</a></li><li><a class="edge" href="../appendix/report-problem.html">Report a problem</a></li></ul>
+      </div>
+    </details>
+  </nav>
+  <main>
+    <div class="col">
+      <header class="intro" id="top">
+        <p class="eyebrow">Part 2: AI-assisted</p>
+        <div class="titlebar"><h1>Part 2: AI-assisted (Human Developed, Agent Programmed)</h1><a class="mirror" href="../manual/index.html">Do this by hand</a></div>
+        <p class="byline">By <a href="https://github.com/taosecurity" target="_blank" rel="noopener">Richard Bejtlich</a>, <a href="https://www.youtube.com/@RichardBejtlich" target="_blank" rel="noopener">Richard Presents Starfield Essentials</a> on YouTube</p>
+        <p class="byline">More Starfield tools and references are on the <a href="https://taosecurity.github.io/">Richard Presents Development Hub</a>.</p>
+        
+        <aside class="summary" aria-label="Summary"><div class="ct">Summary</div><p>Part 2 shows how to have an AI agent run the PMT tools while you make the decisions. Each page mirrors a Part 1 page and says what to ask, what the agent runs, what you check and what stays your decision. The tools are free, but the agent is usually a paid service.</p></aside>
+        <nav class="toc" aria-label="On this page"><div class="ct">On this page</div><ul><li><a href="#set-up">Set up</a></li><li><a href="#for-players">For players</a></li><li><a href="#for-modders">For modders</a></li><li><a href="#the-appendix">The appendix</a></li></ul></nav>
+      </header>
+
+<p>Part 2 is for Human Developed, Agent Programmed modding. You describe what you want in plain words. The agent runs the same commands as Part 1, reads the reports first and explains them. You check its claims against each tool&#x27;s own report, and you keep every decision about installing, applying a load order, permission, uploading and sharing.</p><p>The agent&#x27;s service sees what the agent reads, including file names and log text. Read <a href="../appendix/guardrails.html">Guardrails for AI use</a> before your first session. PMT runs on a PC; console players can check a mod on a PC, and modders build console versions there.</p><p>Start with <a href="setup.html">Set up an AI agent</a>. If you want to run the commands yourself, see <a href="../manual/index.html">Part 1</a>.</p>
+<section class="s cat" id="set-up" style="--h:215"><h2>Set up</h2><div class="scroll"><table><thead><tr><th scope="col">Page</th><th scope="col">What it helps you do</th></tr></thead><tbody><tr><td><a href="setup.html">Set up an AI agent</a></td><td>Add the starfield-agent plugin to Claude Code, or point another agent at each tool&#x27;s AGENTS.md.</td></tr></tbody></table></div></section>
+<section class="s cat" id="for-players" style="--h:25"><h2>For players</h2><div class="scroll"><table><thead><tr><th scope="col">Page</th><th scope="col">What it helps you do</th></tr></thead><tbody><tr><td><a href="p1-load-order.html">Check and improve a load order with an agent</a></td><td>Ask an agent to check your load order and explain the top problems.</td></tr><tr><td><a href="p2-evaluate-mod.html">Evaluate a mod with an agent</a></td><td>Ask an agent to look inside a download and say where to start reading.</td></tr><tr><td><a href="p3-conflicts-patch.html">Find conflicts and build a patch with an agent</a></td><td>Ask an agent for the conflict report and a patch, and choose which mod wins.</td></tr><tr><td><a href="p4-more-players.html">Saves, bug reports and patch day with an agent</a></td><td>Ask an agent to check a save, read your logs and run the patch-day checks.</td></tr><tr><td><a href="p5-compare.html">Agents and the other modding tools</a></td><td>See which tools an agent can drive and which stay yours to use.</td></tr></tbody></table></div></section>
+<section class="s cat" id="for-modders" style="--h:160"><h2>For modders</h2><div class="scroll"><table><thead><tr><th scope="col">Page</th><th scope="col">What it helps you do</th></tr></thead><tbody><tr><td><a href="m1-fix-mod.html">Fix what an evaluation found with an agent</a></td><td>Have an agent read a finding and rebuild, with your permission first.</td></tr><tr><td><a href="m2-extend-mod.html">Extend another author&#x27;s mod with an agent</a></td><td>Have an agent build an add-on after you have the author&#x27;s permission.</td></tr><tr><td><a href="m3-mechanics-mod.html">Build a mechanics mod with an agent</a></td><td>Have an agent build the tutorial mechanics mod and check it.</td></tr><tr><td><a href="m4-quest-mod.html">Build a quest mod with an agent</a></td><td>Have an agent build the tutorial quest mod and check it.</td></tr><tr><td><a href="m5-test-debug.html">Test and debug a mod with an agent</a></td><td>Have an agent draft a test plan and read your logs while you play.</td></tr><tr><td><a href="m6-release.html">Release a mod with an agent</a></td><td>Have an agent run the release checks; the upload stays yours.</td></tr><tr><td><a href="m7-more-modders.html">More tools for modders, with an agent</a></td><td>Let an agent look up Papyrus names instead of guessing them.</td></tr></tbody></table></div></section>
+<section class="s cat" id="the-appendix" style="--h:265"><h2>The appendix</h2><p>The <a href="../appendix/tools.html">appendix</a> lists <a href="../appendix/tools.html">other free tools</a>, <a href="../appendix/guardrails.html">guardrails for AI use</a>, a <a href="../appendix/glossary.html">glossary</a> and <a href="../appendix/report-problem.html">how to report a problem</a>.</p></section>
+
+      <p class="mirror-end"><a class="mirror" href="../manual/index.html">Do this by hand</a></p>
+      <footer>Built 2026-11-24. Source and issues: <a href="https://github.com/taosecurity/starfield-pmt-guide" target="_blank" rel="noopener">github.com/taosecurity/starfield-pmt-guide</a>. This is an unofficial guide, not made or endorsed by Bethesda. Starfield is a trademark of ZeniMax Media.</footer>
+    </div>
+  </main>
+</div>
+<script src="../assets/site.js"></script>
+</body>
+</html>

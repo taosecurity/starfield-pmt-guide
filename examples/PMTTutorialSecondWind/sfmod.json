@@ -1,0 +1,26 @@
+// sf-mod-build project file for PMTTutorialSecondWind. Build everything with:  sf-mod-build build
+// Check this file with:  sf-mod-build validate
+{
+  "plugin": "PMTTutorialSecondWind.esm",
+  "version": "0.1.0",
+  "scripts": {
+    "source": "Scripts/Source",
+    "namespaces": ["PTSW"]
+  },
+  "builder": {
+    "project": "Builder",
+    "args": ["{data}", "{dist}", "{scripts}"]
+  },
+  "dist": "dist",
+  "stage": ".build/stage",
+  "xbox": true,
+  // Loose files (meshes, materials, textures, sounds), in a folder laid out like Data (Meshes, Textures ...):
+  // "assets": { "source": "Assets" },
+  "zip": {
+    "name": "{name}-{version}.zip",
+    "files": {
+      "README.md": "README-{name}.md",
+      "LICENSE": "LICENSE-{name}.txt"
+    }
+  }
+}

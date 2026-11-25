@@ -1,0 +1,939 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PMTTutorialCourier test plan</title>
+<meta name="generator" content="sf-test-plan 0.4.0">
+<style>
+/* sf-test-plan page style. One reading column: a header with facts, a sticky tally and toolbar, then the checks.
+   Light and dark follow the system; set data-theme="light" or "dark" on <html> to force one. System fonts only. */
+:root{
+  --bg:#f3f4f2; --panel:#ffffff; --ink:#1d2328; --muted:#5b6670; --line:#d9ddd8;
+  --accent:#a65a08; --accent-soft:#f6e6d2; --code:#eceeea; --on-accent:#1b1206;
+  --tp-pass:#1f7a4d; --tp-pass-bg:#e1f3e8; --tp-fail:#b0321f; --tp-fail-bg:#fbe3de; --tp-skip:#5b6670; --tp-skip-bg:#e9ebe8;
+  --f-display:"Segoe UI Semibold","Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  --f-body:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --f-mono:ui-monospace,"Cascadia Mono",Consolas,"SFMono-Regular",Menlo,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#13171a; --panel:#1b2024; --ink:#e4e8ea; --muted:#9aa5ad; --line:#2d353b;
+  --accent:#f0a24a; --accent-soft:#3a2a17; --code:#232a2f; --on-accent:#1b1206;
+  --tp-pass:#6fd49c; --tp-pass-bg:#173527; --tp-fail:#ff9a85; --tp-fail-bg:#43201a; --tp-skip:#a3abb3; --tp-skip-bg:#262c31;
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#13171a; --panel:#1b2024; --ink:#e4e8ea; --muted:#9aa5ad; --line:#2d353b;
+  --accent:#f0a24a; --accent-soft:#3a2a17; --code:#232a2f; --on-accent:#1b1206;
+  --tp-pass:#6fd49c; --tp-pass-bg:#173527; --tp-fail:#ff9a85; --tp-fail-bg:#43201a; --tp-skip:#a3abb3; --tp-skip-bg:#262c31;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0; background:var(--bg); color:var(--ink); font:16px/1.55 var(--f-body); overflow-wrap:break-word}
+.wrap{margin:0 auto; padding-block:28px 64px; padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px)); display:grid; gap:22px; max-width:76rem; min-width:0}
+.wrap > *{min-width:0}
+h1,h2,h3{font-family:var(--f-display); margin:0; text-wrap:balance}
+h1{font-size:32px; font-weight:700; line-height:1.15}
+h2{font-size:21px; font-weight:700; display:flex; gap:10px; align-items:baseline; flex-wrap:wrap}
+h2 .n{color:var(--accent); font-variant-numeric:tabular-nums}
+.eyebrow{font:600 12px var(--f-display); text-transform:uppercase; letter-spacing:.12em; color:var(--accent)}
+p{margin:0}
+.muted{color:var(--muted)}
+a{color:var(--accent)}
+code{font:13.5px var(--f-mono); background:var(--code); padding:1px 5px; border-radius:4px; overflow-wrap:anywhere}
+header{display:grid; gap:10px}
+.facts{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px 18px; margin:6px 0 0}
+.facts div{border-top:2px solid var(--line); padding-top:6px; min-width:0}
+.facts dt{font:600 12px var(--f-display); text-transform:uppercase; letter-spacing:.1em; color:var(--muted)}
+.facts dd{margin:2px 0 0; overflow-wrap:anywhere}
+.how{font-size:15px}
+.toc{display:flex; flex-wrap:wrap; gap:6px 14px; font-size:14px}
+
+/* Sticky tally, toolbar and save status. */
+.topbar{position:sticky; top:env(safe-area-inset-top, 0px); z-index:5; background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:10px 14px; display:flex; flex-wrap:wrap; gap:8px 16px; align-items:center; justify-content:space-between}
+body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top, 0px); z-index:10; background:var(--bg)}
+/* The page script fills #tally with span.tally-item.tally-<pass|fail|skip|open> and span.tally-total, and sets the
+   counts as --pass, --fail, --skip, --open and --total on it (so the colour tokens are named --tp-*). */
+.bar{display:flex; gap:6px 12px; flex-wrap:wrap; align-items:baseline; font-variant-numeric:tabular-nums; font-size:14px; flex:1 1 220px; min-width:0;
+  --p1:calc(var(--pass, 0) / max(var(--total, 1), 1) * 100%);
+  --p2:calc((var(--pass, 0) + var(--fail, 0)) / max(var(--total, 1), 1) * 100%);
+  --p3:calc((var(--pass, 0) + var(--fail, 0) + var(--skip, 0)) / max(var(--total, 1), 1) * 100%)}
+.bar b{font-weight:600}
+.bar::after{content:""; flex:1 0 100%; height:4px; border-radius:2px; background:linear-gradient(to right,
+  var(--tp-pass) 0 var(--p1), var(--tp-fail) var(--p1) var(--p2), var(--tp-skip) var(--p2) var(--p3), var(--line) var(--p3) 100%)}
+.t-pass, .tally-pass{color:var(--tp-pass)} .t-fail, .tally-fail{color:var(--tp-fail)} .t-skip, .tally-skip{color:var(--tp-skip)}
+.t-open, .tally-open, .tally-total{color:var(--muted)}
+.tools{display:flex; gap:8px; flex-wrap:wrap}
+.toolmsg{font-size:13px; color:var(--muted); width:100%}
+.toolmsg:empty{display:none}
+.toolmsg.ok{color:var(--tp-pass)} .toolmsg.warn{color:var(--tp-fail)}
+.copy-fallback{width:100%; min-height:120px; font:13px var(--f-mono); color:var(--ink); background:var(--bg); border:1px solid var(--line); border-radius:7px; padding:6px 9px}
+.saved{font-size:13px; color:var(--muted); width:100%; min-height:1em}
+.saved:empty{display:none}
+.saved.ok{color:var(--tp-pass)} .saved.warn{color:var(--tp-fail)}
+button{font:600 14px var(--f-body); border-radius:7px; padding:6px 14px; cursor:pointer; border:1px solid var(--line); background:var(--panel); color:var(--ink)}
+button:hover{border-color:var(--muted)}
+button.primary{background:var(--accent); border-color:var(--accent); color:var(--on-accent)}
+button:focus-visible, input:focus-visible, textarea:focus-visible, summary:focus-visible, a:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+[hidden]{display:none !important}
+
+/* Sections and checks. */
+section{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:18px 18px 8px; display:grid; gap:10px; min-width:0}
+.prep{background:var(--accent-soft); border-color:transparent; padding-bottom:18px}
+.prep ol{margin:0; padding-left:22px; display:grid; gap:6px}
+section.smoke{border:2px solid var(--accent)}
+details.deep{display:grid; gap:22px}
+details.deep > summary{cursor:pointer; font:700 19px var(--f-display); padding:6px 0; list-style-position:inside}
+details.deep[open] > summary{margin-bottom:22px}
+details.deep > section + section{margin-top:22px}
+.checks{list-style:none; margin:0; padding:0}
+.check{border-top:1px solid var(--line); padding:12px 0; display:grid; grid-template-columns:minmax(0,1fr) auto; gap:8px 16px}
+.check .what{min-width:0; display:grid; gap:4px}
+.check .id{font:500 12px var(--f-mono); color:var(--muted)}
+.check .expect{color:var(--muted); font-size:15px}
+.check .hint{color:var(--muted); font-size:14px; font-style:italic}
+.check .group-intro{color:var(--muted); font-size:14px; border-left:2px solid var(--line); padding-left:8px; margin-bottom:4px}
+.check .bylog{color:var(--muted); font-size:13px; border-left:2px solid var(--line); padding-left:8px}
+.check .from{color:var(--muted); font-size:12px}
+/* State classes the page script sets on li.check: is-pass, is-fail, is-skip, is-open, has-note, from-log. */
+.check.is-pass .id{color:var(--tp-pass)} .check.is-fail .id{color:var(--tp-fail)} .check.is-skip .id{color:var(--tp-skip)}
+.check.is-fail{box-shadow:inset 3px 0 0 var(--tp-fail); padding-left:10px}
+.logbadge{justify-self:start; font:600 11px var(--f-display); text-transform:uppercase; letter-spacing:.08em; padding:1px 8px; border-radius:999px; background:var(--tp-skip-bg); color:var(--muted)}
+.check.from-log .logbadge{background:var(--tp-pass-bg); color:var(--tp-pass)}
+.check.is-fail.from-log .logbadge{background:var(--tp-fail-bg); color:var(--tp-fail)}
+
+/* Controls the page script adds: Pass / Fail / Skip (radios, each followed by label.seg-<v>), the note box,
+   and button.copycmd after each code.cmd. The radios are hidden visually but stay focusable. */
+.seg{display:flex; border:1px solid var(--line); border-radius:8px; overflow:hidden; align-self:start; position:relative}
+.seg input{position:absolute; width:1px; height:1px; margin:0; opacity:0; pointer-events:none}
+.seg label{font:600 13px var(--f-body); padding:5px 10px; cursor:pointer; color:var(--muted); border-left:1px solid var(--line); user-select:none}
+.seg label:first-of-type{border-left:none}
+.seg input:focus-visible + label{outline:2px solid var(--accent); outline-offset:-2px}
+.seg input:checked + label.seg-pass{background:var(--tp-pass-bg); color:var(--tp-pass)}
+.seg input:checked + label.seg-fail{background:var(--tp-fail-bg); color:var(--tp-fail)}
+.seg input:checked + label.seg-skip{background:var(--tp-skip-bg); color:var(--tp-skip)}
+.note{grid-column:1 / -1}
+.note textarea, textarea.note{width:100%; min-height:34px; resize:vertical; font:14px var(--f-body); color:var(--ink); background:var(--bg); border:1px solid var(--line); border-radius:7px; padding:6px 9px}
+.copycmd{font:500 11px var(--f-mono); margin-left:4px; padding:1px 6px; border:1px solid var(--line); border-radius:4px; background:transparent; color:inherit; cursor:pointer; vertical-align:1px}
+.copycmd:hover{border-color:currentColor}
+
+/* Results log and footer. */
+.tbl{overflow-x:auto; max-width:100%}
+table{border-collapse:collapse; width:100%; font-size:14px}
+th,td{text-align:left; vertical-align:top; padding:7px 10px; border-top:1px solid var(--line)}
+th{font:600 12px var(--f-display); text-transform:uppercase; letter-spacing:.08em; color:var(--muted)}
+footer{font-size:14px; color:var(--muted); display:grid; gap:6px}
+
+@media (max-width:560px){
+  .check{grid-template-columns:minmax(0,1fr)}
+  h1{font-size:26px}
+  section{padding:14px 14px 6px}
+  .topbar{padding:8px 10px}
+  button{padding:6px 10px}
+}
+@media (prefers-reduced-motion: reduce){ *{scroll-behavior:auto !important; transition:none !important} }
+@media print{
+  .topbar .tools, .copycmd{display:none}
+  .topbar{position:static}
+  details.deep > *{display:block}
+}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">Test plan</div>
+  <h1>PMTTutorialCourier test plan</h1>
+  <p>This plan tests A Courier&#x27;s Request (PMTTutorialCourier) 0.1.1, the quest mod from the PMT guide&#x27;s tutorial. The quest has three stages: stage 10 gives you a note when you first reach New Atlantis, stage 20 starts when you read the note and asks for 5 Iron, and stage 30 pays 100 credits, completes and stops the quest once you hold 5 Iron, and shows a HUD line about 3 seconds later. Version 0.1.1 fixes two problems found in the play-test of 0.1.0: the quest was not listed under Completed, and the HUD line was lost among the pickup notices. Start with the smoke test; the deep checks try the edge cases.</p>
+  <dl class="facts">
+    <div><dt>Mod</dt><dd>PMTTutorialCourier</dd></div>
+    <div><dt>Version</dt><dd>0.1.1</dd></div>
+    <div><dt>Zip</dt><dd>PMTTutorialCourier-0.1.1.zip</dd></div>
+    <div><dt>Run</dt><dd>pmttutorialcourier-0.1.1</dd></div>
+  </dl>
+  <p class="muted how"><strong>Smoke test first.</strong> The checks in the Smoke test box are the core ones. The deep checks are optional: open them before a public release, or when something looks wrong. Mark each check Pass, Fail or Skip and add a note if something looks wrong. Your marks are saved in this browser as you go. Use <strong>Export</strong> to save them to a file you can share or import later.</p>
+  <nav class="toc" aria-label="On this page"><a href="#prep">Before you start</a><a href="#smoke">Smoke test</a><a href="#deep">Deep checks</a><a href="#log-checks">Checks in the logs</a><a href="#log-lines">What the log lines mean</a><a href="#results">Results log</a></nav>
+</header>
+<div class="topbar" role="region" aria-label="Results">
+  <div class="bar" id="tally" data-total="9"><span class="tally-item tally-pass"><b>0</b> pass</span> <span class="tally-item tally-fail"><b>0</b> fail</span> <span class="tally-item tally-skip"><b>0</b> skip</span> <span class="tally-item tally-open"><b>9</b> not run</span> <span class="tally-total">of 9 checks</span></div>
+  <div class="tools" id="tools"><button type="button" data-act="export">Export</button><button type="button" data-act="import">Import</button><button type="button" data-act="copy">Copy results</button><button type="button" data-act="reset">Reset</button><input type="file" id="importfile" accept=".json,application/json" hidden></div>
+  <span id="saved" class="saved" aria-live="polite"></span>
+</div>
+<section class="prep" id="prep">
+  <h2>Before you start</h2>
+  <ol>
+    <li>Install PMTTutorialCourier-0.1.1.zip with your mod manager and enable it.</li>
+    <li>Turn on Papyrus logging (the mod&#x27;s README says how), so the log shows the mod&#x27;s <code>[PTCR]</code> lines.</li>
+    <li>Start a new character, so an old save doesn&#x27;t hide problems.</li>
+  </ol>
+</section>
+<section class="smoke" id="smoke" data-group="smoke">
+  <h2><span class="n">S</span> Smoke test (9 checks)</h2>
+  <p class="muted">Do these in this order. Each one keeps its number from its group.</p>
+  <ul class="checks">
+    <li class="check" data-id="1.1" data-group="1" data-smoke="1" data-log="started"><div class="what"><span class="id">1.1</span><div class="step">Start a new game and finish the character creator.</div><div class="expect">Expect: no error message about PMTTutorialCourier.</div><div class="bylog">Also checked from the Papyrus log: <code>started</code></div><div class="from">From group 1: Install and load</div></div></li>
+    <li class="check" data-id="1.2" data-group="1" data-smoke="1" data-log=""><div class="what"><span class="id">1.2</span><div class="step">Open Settings &gt; Gameplay Options.</div><div class="expect">Expect: a group named &quot;A Courier&#x27;s Request (PMT Tutorial)&quot; with &quot;Show Debug Messages (PC only)&quot;, set to off.</div><div class="from">From group 1: Install and load</div></div></li>
+    <li class="check" data-id="2.1" data-group="2" data-smoke="1" data-log="stage-10"><div class="what"><span class="id">2.1</span><div class="step">Play until you first arrive in New Atlantis (or land at the New Atlantis spaceport later in the game).</div><div class="expect">Expect: &quot;A Courier&#x27;s Request&quot; is added to your inventory, and a new objective, &quot;Read the courier&#x27;s note&quot;, appears.</div><div class="bylog">Also checked from the Papyrus log: <code>stage-10</code></div><div class="from">From group 2: Stage 10: the note</div></div></li>
+    <li class="check" data-id="2.2" data-group="2" data-smoke="1" data-log=""><div class="what"><span class="id">2.2</span><div class="step">Open the Missions menu and look under Activities.</div><div class="expect">Expect: &quot;A Courier&#x27;s Request&quot; is listed with the objective &quot;Read the courier&#x27;s note&quot;.</div><div class="from">From group 2: Stage 10: the note</div></div></li>
+    <li class="check" data-id="3.1" data-group="3" data-smoke="1" data-log="onread stage-20"><div class="what"><span class="id">3.1</span><div class="step">Read the note from your inventory (Inventory &gt; Notes, then Read).</div><div class="expect">Expect: the note&#x27;s text asks for 5 Iron. The first objective is completed, and &quot;Collect 5 Iron&quot; appears.</div><div class="bylog">Also checked from the Papyrus log: <code>onread</code> <code>stage-20</code></div><div class="from">From group 3: Stage 20: read the note</div></div></li>
+    <li class="check" data-id="4.1" data-group="4" data-smoke="1" data-log="iron-check stage-30"><div class="what"><span class="id">4.1</span><div class="step">Close every menu (inventory, Missions, the console) before you take the 5th Iron, so you can see the HUD line that follows. Then pick up Iron until you hold 5 (or type <code class="cmd">player.additem 0000556E 5</code> in the console, and close it at once).</div><div class="expect">Expect: the objective &quot;Collect 5 Iron&quot; is completed and your credits go up by 100.</div><div class="bylog">Also checked from the Papyrus log: <code>iron-check</code> <code>stage-30</code></div><div class="from">From group 4: Stage 30: collect the Iron</div></div></li>
+    <li class="check" data-id="4.2" data-group="4" data-smoke="1" data-log="stage-30-hud"><div class="what"><span class="id">4.2</span><div class="step">Watch the HUD for about 5 seconds after the reward.</div><div class="expect">Expect: a few seconds after the Iron and credits pickup notices, a HUD line says &quot;A Courier&#x27;s Request: done. The workshop paid you 100 credits.&quot;</div><div class="bylog">Also checked from the Papyrus log: <code>stage-30-hud</code></div><div class="from">From group 4: Stage 30: collect the Iron</div></div></li>
+    <li class="check" data-id="4.3" data-group="4" data-smoke="1" data-log="stage-30-stopped"><div class="what"><span class="id">4.3</span><div class="step">Open the Missions menu and look at the Completed tab.</div><div class="expect">Expect: &quot;A Courier&#x27;s Request&quot; is listed under Completed, and it is no longer listed as an active quest under Activities.</div><div class="hint">Version 0.1.0 left the quest running, so the Completed tab did not list it. If it still isn&#x27;t listed, mark this check Fail and note what the Activities tab shows.</div><div class="bylog">Also checked from the Papyrus log: <code>stage-30-stopped</code></div><div class="from">From group 4: Stage 30: collect the Iron</div></div></li>
+    <li class="check" data-id="6.1" data-group="6" data-smoke="1" data-log=""><div class="what"><span class="id">6.1</span><div class="step">Save while the quest is at stage 10 or 20, quit to the main menu and load the save.</div><div class="expect">Expect: the objective is still shown, and reading the note or collecting the Iron still moves the quest on.</div><div class="from">From group 6: Save and load</div></div></li>
+  </ul>
+</section>
+<details class="deep" id="deep"><summary>Deep checks (optional): 8 more</summary>
+<section class="group" id="g1" data-group="1">
+  <h2><span class="n">1</span> Install and load</h2>
+  <ul class="checks">
+    <li class="check" data-id="1.3" data-group="1" data-smoke="0" data-log=""><div class="what"><span class="id">1.3</span><div class="step">Before you reach New Atlantis, open the console and type <code class="cmd">getstage PTCR_Quest</code>.</div><div class="expect">Expect: 0, because no stage has been set yet.</div></div></li>
+  </ul>
+</section>
+<section class="group" id="g2" data-group="2">
+  <h2><span class="n">2</span> Stage 10: the note</h2>
+  <ul class="checks">
+    <li class="check" data-id="2.3" data-group="2" data-smoke="0" data-log=""><div class="what"><span class="id">2.3</span><div class="step">Look at the ground where you stood when the note arrived.</div><div class="expect">Expect: no copy of the note lies in the world; the only copy is in your inventory.</div></div></li>
+    <li class="check" data-id="2.4" data-group="2" data-smoke="0" data-log=""><div class="what"><span class="id">2.4</span><div class="step">Type <code class="cmd">getstage PTCR_Quest</code> in the console.</div><div class="expect">Expect: 10.</div><div class="hint">If stage 10 never starts, type <code class="cmd">setstage PTCR_Quest 10</code> to go on, and mark this group Fail with a note of where you were.</div></div></li>
+  </ul>
+</section>
+<section class="group" id="g3" data-group="3">
+  <h2><span class="n">3</span> Stage 20: read the note</h2>
+  <ul class="checks">
+    <li class="check" data-id="3.2" data-group="3" data-smoke="0" data-log=""><div class="what"><span class="id">3.2</span><div class="step">Type <code class="cmd">getstage PTCR_Quest</code> in the console.</div><div class="expect">Expect: 20.</div><div class="hint">If reading the note doesn&#x27;t start stage 20, type <code class="cmd">setstage PTCR_Quest 20</code> to go on, and mark this check Fail.</div></div></li>
+  </ul>
+</section>
+<section class="group" id="g4" data-group="4">
+  <h2><span class="n">4</span> Stage 30: collect the Iron</h2>
+  <ul class="checks">
+    <li class="check" data-id="4.4" data-group="4" data-smoke="0" data-log=""><div class="what"><span class="id">4.4</span><div class="step">Type <code class="cmd">getstage PTCR_Quest</code> in the console.</div><div class="expect">Expect: 30.</div></div></li>
+  </ul>
+</section>
+<section class="group" id="g5" data-group="5">
+  <h2><span class="n">5</span> Edge cases</h2>
+  <ul class="checks">
+    <li class="check" data-id="5.1" data-group="5" data-smoke="0" data-log="stage-30"><div class="what"><span class="id">5.1</span><div class="step">On a second new character, pick up 5 Iron before you reach New Atlantis, then arrive and read the note.</div><div class="expect">Expect: the quest completes as soon as you read the note, because you already hold the Iron.</div><div class="bylog">Also checked from the Papyrus log: <code>stage-30</code></div></div></li>
+    <li class="check" data-id="5.2" data-group="5" data-smoke="0" data-log=""><div class="what"><span class="id">5.2</span><div class="step">Leave New Atlantis and come back after the quest has started.</div><div class="expect">Expect: no second note, and the stage doesn&#x27;t change.</div></div></li>
+    <li class="check" data-id="5.3" data-group="5" data-smoke="0" data-log=""><div class="what"><span class="id">5.3</span><div class="step">Turn on Show Debug Messages (PC only), then pick up one more Iron before the quest ends.</div><div class="expect">Expect: a <code>[PTCR] Iron check</code> line shows on screen as well as in the log.</div></div></li>
+  </ul>
+</section>
+</details>
+<section class="ref" id="log-checks">
+  <h2>Checks in the logs</h2>
+  <p>After play, run papyrus-log-check on the Papyrus log with the rule file <code>PMTTutorialCourier.logrules.json</code>.</p>
+  <p class="muted">Check these in the logs after you play. They aren't marked on this page and don't count in the tally.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>#</th><th>What</th><th>Expected</th></tr></thead>
+    <tbody>
+      <tr data-id="L.1"><td>L.1</td><td>The quest script started at the beginning of the game.<div class="bylog">Log rules: <code>started</code></div></td><td>a <code>[PTCR] started</code> line.</td></tr>
+      <tr data-id="L.2"><td>L.2</td><td>No Papyrus error names a PTCR script.<div class="bylog">Log rules: <code>no-script-errors</code></div></td><td>no <code>error:</code> line that names PTCR:CourierQuestScript or PTCR:CourierPlayerAliasScript.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+<section class="ref" id="log-lines">
+  <h2>What the log lines mean</h2>
+  <p class="muted">The Papyrus log lines this mod writes, from its papyrus-log-check rule file.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Rule</th><th>Log line</th><th>Kind</th><th>What it means</th></tr></thead>
+    <tbody>
+      <tr><td>started</td><td><code>(?i)\[PTCR\] started</code></td><td>Expected</td><td>Step 1.1: Start a new game and finish the character creator.; Step L.1: The quest script started at the beginning of the game.</td></tr>
+      <tr><td>stage-10</td><td><code>(?i)\[PTCR\] stage 10: note given</code></td><td>Expected</td><td>Step 2.1: Play until you first arrive in New Atlantis (or land at the New Atlantis spaceport later in the game).</td></tr>
+      <tr><td>onread</td><td><code>(?i)\[PTCR\] OnRead from</code></td><td>Expected</td><td>Step 3.1: Read the note from your inventory (Inventory &gt; Notes, then Read).</td></tr>
+      <tr><td>stage-20</td><td><code>(?i)\[PTCR\] stage 20: note read</code></td><td>Expected</td><td>Step 3.1: Read the note from your inventory (Inventory &gt; Notes, then Read).</td></tr>
+      <tr><td>iron-check</td><td><code>(?i)\[PTCR\] Iron check: \d+ of 5</code></td><td>Expected</td><td>Step 4.1: Pick up Iron until you hold 5 (or type player.additem 0000556E 5 in the console).</td></tr>
+      <tr><td>stage-30</td><td><code>(?i)\[PTCR\] stage 30: 100 credits paid</code></td><td>Expected</td><td>Step 4.1: Pick up Iron until you hold 5 (or type player.additem 0000556E 5 in the console).; Step 5.1: On a second new character, pick up 5 Iron before you reach New Atlantis, then arrive and read the note.</td></tr>
+      <tr><td>stage-30-stopped</td><td><code>(?i)\[PTCR\] stage 30: quest stopped, HUD line in</code></td><td>Expected</td><td>Step 4.3: Open the Missions menu and look at the Completed tab.</td></tr>
+      <tr><td>stage-30-hud</td><td><code>(?i)\[PTCR\] stage 30: HUD line shown</code></td><td>Expected</td><td>Step 4.2: Watch the HUD for about 5 seconds after the reward.</td></tr>
+      <tr><td>no-script-errors</td><td><code>(?i)error:.*PTCR:</code></td><td>Must not appear</td><td>Step L.2: No Papyrus error names a PTCR script.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+<section class="ref" id="results">
+  <h2>Results log</h2>
+  <p class="muted">One row per test round, newest first.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Date</th><th>Run</th><th>Test</th><th>What happened</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>2026-11-24</td><td>pmttutorialcourier-0.1.0</td><td>Smoke test</td><td>7 pass, 0 fail, 0 skip, 0 not run</td><td>1.2 pass: Default says Disable; 4.1 pass: However, I do not see the completed task in the mission tracker. I enabled &quot;show all targets&quot;.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+<footer>
+  <p>Made with <a href="https://github.com/taosecurity/sf-test-plan" rel="noopener">sf-test-plan 0.4.0</a>. Marks are kept in this browser under the run <code>pmttutorialcourier-0.1.1</code>; a new run starts with empty marks. If the line under the tally says saving isn't available, use <strong>Export</strong> before you close the page.</p>
+</footer>
+</div>
+<script type="application/json" id="tp-config">{"format": "sf-test-plan-page/1", "run": "pmttutorialcourier-0.1.1", "title": "PMTTutorialCourier test plan", "tool": "sf-test-plan 0.4.0", "mod": "PMTTutorialCourier", "version": "0.1.1", "zip": "PMTTutorialCourier-0.1.1.zip", "total": 9, "plan": "1cc1ac6fb26a"}</script>
+<script type="application/json" id="tp-logchecks">[{"id": "L.1", "kind": "log only", "what": "The quest script started at the beginning of the game.", "expect": "a [PTCR] started line.", "log": ["started"]}, {"id": "L.2", "kind": "log only", "what": "No Papyrus error names a PTCR script.", "expect": "no error: line that names PTCR:CourierQuestScript or PTCR:CourierPlayerAliasScript.", "log": ["no-script-errors"]}]</script>
+<script>
+(function () {
+  "use strict";
+  /* sf-test-plan page script (FORMAT.md sections 2 and 3).
+     Adds Pass / Fail / Skip and a note box to every li.check, keeps the marks in this browser
+     (localStorage "sf-test-plan:<run>", or in memory when storage is blocked), and runs the toolbar:
+     Export (marks.json), Import (merge, newer "at" wins), Copy results (plain text) and Reset.
+     Text from storage or an imported file is only ever set with textContent or value, never innerHTML.
+     No libraries, no network. */
+
+  var MARKS_FORMAT = "sf-test-plan-marks/1";
+  var STORE_FORMAT = "sf-test-plan-store/1";
+  var RESULTS = ["pass", "fail", "skip"];
+  var NOTE_DELAY = 600;
+  var MAX_NOTE = 20000;
+
+  var CFG = {};
+  try { CFG = JSON.parse(document.getElementById("tp-config").textContent) || {}; } catch (e) { CFG = {}; }
+  var RUN = typeof CFG.run === "string" && CFG.run ? CFG.run : "plan";
+  var TITLE = typeof CFG.title === "string" ? CFG.title : document.title;
+  var TOOL = typeof CFG.tool === "string" ? CFG.tool : "sf-test-plan";
+  /* Browsers share one storage area for every file:// page, so the key names the plan as well as the run
+     (CFG.plan: a short hash of the plan's file name and run, made at build time). */
+  var PLAN = typeof CFG.plan === "string" && /^[0-9a-f]{1,32}$/.test(CFG.plan) ? CFG.plan : "";
+  var KEY = "sf-test-plan:" + RUN + (PLAN ? ":" + PLAN : "");
+
+  /* ---------- small helpers ---------- */
+  function $(id) { return document.getElementById(id); }
+  function nowIso() { return new Date().toISOString().replace(/\.\d{3}Z$/, "Z"); }
+  function pad(n) { return (n < 10 ? "0" : "") + n; }
+  function localStamp(d) {
+    return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()) + " " + pad(d.getHours()) + ":" + pad(d.getMinutes());
+  }
+  function fileStamp(d) {
+    return "" + d.getFullYear() + pad(d.getMonth() + 1) + pad(d.getDate()) + "-" + pad(d.getHours()) + pad(d.getMinutes());
+  }
+  function timeOf(iso) { var t = Date.parse(iso); return isNaN(t) ? -Infinity : t; }
+  function clean(s) { return String(s).replace(/\s+/g, " ").trim(); }
+  function hasNote(s) { return !!(s && typeof s.n === "string" && s.n.trim()); }
+  function hasAny(s) { return !!(s && (s.r || hasNote(s))); }
+
+  /* ---------- storage (every access in try/catch) ---------- */
+  var storageOk = false;
+  try {
+    var probe = "sf-test-plan:__probe__";
+    window.localStorage.setItem(probe, "1");
+    window.localStorage.removeItem(probe);
+    storageOk = true;
+  } catch (e) { storageOk = false; }
+
+  var state = {};       /* id -> {r, n, at, src, pn} for checks on this page */
+  /* Stored entries for step numbers this page doesn't have (another build of the plan open in another tab, or an
+     older one): written back as they are, so one build's save never erases another's. Marks are keyed by step
+     number; a new build that changes its steps should get a new run: (README, FORMAT.md 2). */
+  var others = Object.create(null);
+  var lastSaved = "";   /* ISO time of the last write to storage */
+  var storeDamaged = false;   /* the saved copy can't be read (found at start or after another tab's save); cleared by the next good read or save */
+  /* This page found a saved copy in a newer store format (from a newer sf-test-plan). From then until the page is
+     reloaded it reads and writes nothing: its marks live in memory only and the save line says to Export them.
+     It never takes over another tab's save in that time, so nothing is merged, lost or brought back (FORMAT.md 2). */
+  var storeNewer = false;
+
+  /* Which store format a saved copy has: 1 for exactly "sf-test-plan-store/1" or no format; 2 (newer, never
+     written over) for any other name that starts "sf-test-plan-store/<n>" with n of 1 or more, whatever follows
+     (/2, /1.1, /1.0, /2-rc, even /1 with a trailing space); NaN (damaged, replaced by the next save) for anything
+     else (another name, a format that isn't a string, or /0, /, /garbage). Settled rule: err toward never writing over (NOTES 0.2.0). */
+  function storeMajor(data) {
+    if (data.format === undefined || data.format === STORE_FORMAT) return 1;
+    var m = typeof data.format === "string" ? /^sf-test-plan-store\/(\d+)/.exec(data.format) : null;
+    return m && parseInt(m[1], 10) >= 1 ? 2 : NaN;
+  }
+
+  function sanitizeEntry(v) {
+    if (!v || typeof v !== "object") return null;
+    var r = RESULTS.indexOf(v.r) >= 0 ? v.r : "";
+    var n = typeof v.n === "string" ? v.n.slice(0, MAX_NOTE) : "";
+    var at = typeof v.at === "string" ? v.at : "";
+    var src = v.src === "log" ? "log" : "page";
+    /* pn: the note was typed by a person, so a log mark can stay a log mark while the tester's note survives a
+       later log import. It is saved here and travels in exports as ns: "page" (FORMAT.md 3). */
+    return { r: r, n: n, at: at, src: src, pn: v.pn === true || v.ns === "page" };
+  }
+  /* Reads the saved marks into state (this page's steps) and others. If storage can't be read or holds damaged
+     or newer-format data, others is left as it was, so marks this tab already holds aren't lost.
+     Returns "ok", "empty" (nothing saved), "damaged" (saved data can't be read), "newer" (this page found a
+     newer store format, now or earlier, and is memory-only until reload: storage isn't read again and nothing is
+     written, so this says nothing about what storage holds now) or "unavailable" (no storage). */
+  function readStore() {
+    if (!storageOk) return "unavailable";
+    if (storeNewer) return "newer";   /* memory only until reload */
+    var raw = null;
+    try { raw = window.localStorage.getItem(KEY); } catch (e) { storageOk = false; return "unavailable"; }
+    if (!raw) { others = Object.create(null); lastSaved = ""; storeDamaged = false; return "empty"; }
+    var data = null;
+    try { data = JSON.parse(raw); } catch (e) { data = null; }
+    var major = data && typeof data === "object" ? storeMajor(data) : NaN;
+    if (major > 1) { lastSaved = ""; storeDamaged = false; storeNewer = true; return "newer"; }
+    if (major !== 1 || !data.checks || typeof data.checks !== "object") { lastSaved = ""; storeDamaged = true; return "damaged"; }
+    others = Object.create(null);
+    Object.keys(data.checks).forEach(function (id) {
+      var s = sanitizeEntry(data.checks[id]);
+      if (!s || !hasAny(s) || id.length > 40) return;
+      if (Object.prototype.hasOwnProperty.call(byId, id)) state[id] = s;
+      else others[id] = s;
+    });
+    lastSaved = typeof data.saved === "string" ? data.saved : "";
+    storeDamaged = false;
+    return "ok";
+  }
+  var dirty = {};   /* ids changed here and not yet written (a note waiting for its pause) */
+  function writeStore() {
+    dirty = {};
+    if (!storageOk || storeNewer) { sayStatus(); return; }   /* never write over a newer sf-test-plan's saved copy */
+    var keep = Object.create(null);
+    Object.keys(others).forEach(function (id) { keep[id] = others[id]; });
+    Object.keys(state).forEach(function (id) { if (hasAny(state[id])) keep[id] = state[id]; });
+    try {
+      if (Object.keys(keep).length) {
+        lastSaved = nowIso();
+        window.localStorage.setItem(KEY, JSON.stringify({ format: STORE_FORMAT, run: RUN, saved: lastSaved, checks: keep }));
+      } else {
+        window.localStorage.removeItem(KEY);
+        lastSaved = "";
+      }
+      storeDamaged = false;
+    } catch (e) {
+      storageOk = false;  /* blocked or full: carry on in memory */
+    }
+    sayStatus();
+  }
+
+  var savedEl = $("saved");
+  function sayStatus(extra) {
+    if (!savedEl) return;
+    var text, cls;
+    if (!storageOk) {
+      text = "Marks aren't saved in this browser: use Export before closing.";
+      cls = "saved warn";
+    } else if (storeNewer) {
+      text = "This page found marks saved in this browser by a newer sf-test-plan, so it leaves them as they are and doesn't save the marks shown here. Use Export to keep them, or open the plan with that newer version.";
+      cls = "saved warn";
+    } else if (storeDamaged) {
+      text = "The saved copy in this browser can't be read. Your next saved change replaces it; use Export to keep a copy.";
+      cls = "saved warn";
+    } else if (lastSaved) {
+      text = "Saved in this browser at " + localStamp(new Date(timeOf(lastSaved))) + ".";
+      cls = "saved ok";
+    } else {
+      text = "Marks are saved in this browser as you go.";
+      cls = "saved";
+    }
+    savedEl.textContent = extra ? text + " " + extra : text;
+    savedEl.className = cls;
+  }
+
+  /* ---------- message line under the toolbar ---------- */
+  var tools = $("tools");
+  var msgEl = $("toolmsg");
+  if (!msgEl) {
+    msgEl = document.createElement("div");
+    msgEl.id = "toolmsg";
+    msgEl.className = "toolmsg";
+    msgEl.setAttribute("role", "status");
+    msgEl.setAttribute("aria-live", "polite");
+    if (tools && tools.parentNode) tools.parentNode.insertBefore(msgEl, tools.nextSibling);
+    else document.body.appendChild(msgEl);
+  }
+  function say(text, kind) {
+    msgEl.textContent = text;
+    msgEl.className = "toolmsg" + (kind ? " " + kind : "");
+    var old = $("copy-fallback");
+    if (old) old.parentNode.removeChild(old);
+  }
+
+  /* ---------- the checks ---------- */
+  var checks = Array.prototype.slice.call(document.querySelectorAll("li.check"));
+  var byId = {};
+  var hasSmoke = !!$("smoke");
+
+  function stepText(li) {
+    var d = li.querySelector(".what > .step") || li.querySelector(".what > div:not(.group-intro)");
+    if (!d) return "";
+    var c = d.cloneNode(true);
+    Array.prototype.forEach.call(c.querySelectorAll(".copycmd"), function (b) { b.parentNode.removeChild(b); });
+    return clean(c.textContent).slice(0, 300);
+  }
+  function groupOf(li) {
+    var g = parseInt(li.getAttribute("data-group"), 10);
+    return isNaN(g) ? 0 : g;
+  }
+  function inDeep(li) { return hasSmoke && !!li.closest("#deep"); }
+
+  checks.forEach(function (li) {
+    var id = li.getAttribute("data-id");
+    if (!id || byId[id]) return;
+    var safe = id.replace(/[^A-Za-z0-9_-]/g, "-");
+    var seg = document.createElement("div");
+    seg.className = "seg";
+    seg.setAttribute("role", "radiogroup");
+    seg.setAttribute("aria-label", "Result for check " + id);
+    var radios = {};
+    RESULTS.forEach(function (v) {
+      var inp = document.createElement("input");
+      inp.type = "radio";
+      inp.name = "r-" + safe;
+      inp.value = v;
+      inp.id = "r-" + safe + "-" + v;
+      var lab = document.createElement("label");
+      lab.setAttribute("for", inp.id);
+      lab.className = "seg-" + v;
+      lab.textContent = v.charAt(0).toUpperCase() + v.slice(1);
+      inp.addEventListener("change", function () {
+        if (!inp.checked) return;
+        setMark(id, v);
+      });
+      /* A second click on the mark already chosen clears it. On a new choice the click comes before
+         the change event, so the state still holds the old mark; only a repeat click matches. */
+      inp.addEventListener("click", function () {
+        if (state[id] && state[id].r === v) { inp.checked = false; setMark(id, ""); }
+      });
+      seg.appendChild(inp);
+      seg.appendChild(lab);
+      radios[v] = inp;
+    });
+    li.appendChild(seg);
+
+    var nd = document.createElement("div");
+    nd.className = "note";
+    var ta = document.createElement("textarea");
+    ta.id = "n-" + safe;
+    ta.rows = 2;
+    ta.placeholder = "Note (what you saw)";
+    ta.setAttribute("aria-label", "Note for check " + id);
+    var timer = null;
+    ta.addEventListener("input", function () {
+      var s = entry(id);
+      s.n = ta.value.slice(0, MAX_NOTE);
+      s.at = nowIso();  /* any change moves the time, so Export/Import carries the note (newer wins) */
+      s.pn = true;      /* a person's note; the mark keeps its own source (page or log) */
+      dirty[id] = true;
+      paintClasses(id);
+      clearTimeout(timer);
+      timer = setTimeout(function () { timer = null; writeStore(); }, NOTE_DELAY);
+      pendingNotes[id] = function () { if (timer) { clearTimeout(timer); timer = null; writeStore(); } };
+    });
+    ta.addEventListener("blur", function () { if (timer) { clearTimeout(timer); timer = null; writeStore(); } });
+    nd.appendChild(ta);
+    li.appendChild(nd);
+
+    byId[id] = { li: li, radios: radios, ta: ta, badge: null };
+  });
+
+  var pendingNotes = {};
+  function flushNotes() {
+    Object.keys(pendingNotes).forEach(function (id) { pendingNotes[id](); });
+    pendingNotes = {};
+  }
+  window.addEventListener("pagehide", flushNotes);
+  window.addEventListener("beforeunload", flushNotes);
+
+  function entry(id) {
+    if (!state[id]) state[id] = { r: "", n: "", at: "", src: "page" };
+    return state[id];
+  }
+  function setMark(id, v) {
+    var s = entry(id);
+    s.r = v;
+    s.at = nowIso();
+    s.src = "page";   /* a mark the tester sets by hand is no longer "from the log" */
+    if (!hasAny(s)) delete state[id];
+    paint(id);
+    tally();
+    writeStore();
+  }
+
+  /* ---------- painting ---------- */
+  function paintClasses(id) {
+    var w = byId[id];
+    if (!w) return;
+    var s = state[id] || {};
+    var li = w.li;
+    RESULTS.forEach(function (v) { li.classList.toggle("is-" + v, s.r === v); });
+    li.classList.toggle("is-open", !s.r);
+    li.classList.toggle("has-note", hasNote(s));
+    var fromLog = s.src === "log" && !!s.r;
+    li.classList.toggle("from-log", fromLog);
+    if (fromLog && !w.badge) {
+      w.badge = document.createElement("span");
+      w.badge.className = "logbadge";
+      w.badge.textContent = "Checked from the log";
+      var what = li.querySelector(".what");
+      if (what) what.appendChild(w.badge); else li.insertBefore(w.badge, li.firstChild);
+    } else if (!fromLog && w.badge) {
+      w.badge.parentNode.removeChild(w.badge);
+      w.badge = null;
+    }
+  }
+  function paint(id, force) {
+    var w = byId[id];
+    if (!w) return;
+    var s = state[id] || {};
+    RESULTS.forEach(function (v) { w.radios[v].checked = (s.r === v); });
+    if (force || document.activeElement !== w.ta) w.ta.value = s.n || "";
+    paintClasses(id);
+  }
+  function paintAll(force) { Object.keys(byId).forEach(function (id) { paint(id, force); }); tally(); }
+
+  /* ---------- tally ---------- */
+  var tallyEl = $("tally");
+  var LABELS = { pass: "pass", fail: "fail", skip: "skip", open: "not run" };
+  var tallyNums = {};
+  if (tallyEl) {
+    while (tallyEl.firstChild) tallyEl.removeChild(tallyEl.firstChild);
+    ["pass", "fail", "skip", "open"].forEach(function (k) {
+      var sp = document.createElement("span");
+      sp.className = "tally-item tally-" + k;
+      var b = document.createElement("b");
+      b.textContent = "0";
+      sp.appendChild(b);
+      sp.appendChild(document.createTextNode(" " + LABELS[k]));
+      tallyEl.appendChild(sp);
+      tallyEl.appendChild(document.createTextNode(" "));   /* reads right without CSS too */
+      tallyNums[k] = b;
+    });
+    var tot = document.createElement("span");
+    tot.className = "tally-total";
+    tallyEl.appendChild(tot);
+    tallyNums.total = tot;
+  }
+  /* With a smoke test, the round is a smoke round until any deep check is marked: then only smoke checks count,
+     against the smoke total. Once a deep check is marked it is a full round: every check counts, against all
+     checks. This matches `sf-test-plan import` ("Smoke test" / "Full test"). */
+  function fullRound() {
+    return Object.keys(byId).some(function (id) { return inDeep(byId[id].li) && state[id] && state[id].r; });
+  }
+  function counts() {
+    var c = { pass: 0, fail: 0, skip: 0, open: 0 };
+    var full = fullRound();
+    Object.keys(byId).forEach(function (id) {
+      if (!full && inDeep(byId[id].li)) return;   /* deep checks are optional in a smoke round */
+      var s = state[id];
+      if (s && s.r) c[s.r]++;
+      else c.open++;
+    });
+    return c;
+  }
+  function tally() {
+    var c = counts();
+    if (!tallyEl) return c;
+    var total = parseInt(tallyEl.getAttribute("data-total"), 10);
+    if (isNaN(total) || fullRound()) total = checks.length;
+    Object.keys(c).forEach(function (k) {
+      tallyNums[k].textContent = String(c[k]);
+      tallyEl.setAttribute("data-" + k, String(c[k]));
+      tallyEl.style.setProperty("--" + k, String(c[k]));
+    });
+    tallyEl.style.setProperty("--total", String(total));
+    tallyNums.total.textContent = "of " + total + (total === 1 ? " check" : " checks");
+    return c;
+  }
+
+  /* ---------- clipboard ---------- */
+  function copyText(text, done) {
+    function fallback() {
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "");
+      ta.style.position = "fixed";
+      ta.style.top = "0";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = false;
+      try { ok = document.execCommand("copy"); } catch (e) { ok = false; }
+      document.body.removeChild(ta);
+      done(ok);
+    }
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () { done(true); }, fallback);
+      } else { fallback(); }
+    } catch (e) { fallback(); }
+  }
+
+  /* Copy buttons on console and shell commands (the builder marks them code.cmd). */
+  Array.prototype.forEach.call(document.querySelectorAll("code.cmd"), function (code) {
+    var text = clean(code.textContent);
+    if (!text) return;
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "copycmd";
+    b.textContent = "Copy";
+    b.setAttribute("aria-label", "Copy the command " + text);
+    b.addEventListener("click", function () {
+      copyText(text, function (ok) {
+        if (!ok) {  /* copying is blocked here: select the command so Ctrl+C copies it */
+          try {
+            var r = document.createRange();
+            r.selectNodeContents(code);
+            var sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(r);
+          } catch (e) { /* nothing more to do */ }
+        }
+        b.textContent = ok ? "Copied" : "Selected: press Ctrl+C";
+        setTimeout(function () { b.textContent = "Copy"; }, ok ? 1500 : 4000);
+      });
+    });
+    if (code.nextSibling) code.parentNode.insertBefore(b, code.nextSibling);
+    else code.parentNode.appendChild(b);
+  });
+
+  /* ---------- export ---------- */
+  function marksData() {
+    var out = [];
+    checks.forEach(function (li) {
+      var id = li.getAttribute("data-id");
+      var s = state[id];
+      if (!byId[id] || byId[id].li !== li || !hasAny(s)) return;
+      var row = { id: id, r: s.r || "", n: s.n || "", t: stepText(li), g: groupOf(li), at: s.at || nowIso(), src: s.src === "log" ? "log" : "page" };
+      if (s.pn && s.n) row.ns = "page";   /* the note was typed by a person (FORMAT.md 3) */
+      out.push(row);
+    });
+    return { format: MARKS_FORMAT, run: RUN, title: TITLE, exported: nowIso(), tool: TOOL, checks: out };
+  }
+  function exportName(d) { return RUN + "-marks-" + fileStamp(d || new Date()) + ".json"; }
+  function doExport() {
+    flushNotes();
+    var data = marksData();
+    var text = JSON.stringify(data, null, 2) + "\n";
+    var name = exportName();
+    try {
+      var blob = new Blob([text], { type: "application/json" });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url;
+      a.download = name;
+      a.style.display = "none";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(function () { URL.revokeObjectURL(url); }, 10000);
+      say("Exported " + data.checks.length + (data.checks.length === 1 ? " check" : " checks") + " to " + name + " (your Downloads folder).", "ok");
+    } catch (e) {
+      say("Export didn't work in this browser. Use Copy results instead.", "warn");
+    }
+  }
+
+  /* ---------- import ---------- */
+  function importData(data, opts) {
+    opts = opts || {};
+    var ask = opts.confirm || function (q) { return window.confirm(q); };
+    var res = { ok: false, added: 0, kept: 0, unknown: [], bad: 0, message: "" };
+    if (!data || typeof data !== "object" || typeof data.format !== "string" || !/^sf-test-plan-marks\//.test(data.format)) {
+      res.message = "This file isn't an sf-test-plan marks file (no \"format\": \"" + MARKS_FORMAT + "\"). Pick a file made by Export or by sf-test-plan logs.";
+      return res;
+    }
+    var major = parseInt(data.format.split("/")[1], 10);
+    if (major !== 1) {
+      res.message = "This file is " + clean(data.format).slice(0, 60) + ", a format this page can't read (it reads " + MARKS_FORMAT + "). Rebuild the page with the sf-test-plan version that made the file.";
+      return res;
+    }
+    if (!Array.isArray(data.checks)) {
+      res.message = "This marks file has no \"checks\" list, so there is nothing to import.";
+      return res;
+    }
+    var fileRun = typeof data.run === "string" ? data.run : "";
+    if (fileRun !== RUN) {
+      var q = "This file is for run \"" + clean(fileRun).slice(0, 64) + "\", but this page is run \"" + RUN + "\". Merge its marks into this page anyway?";
+      if (!ask(q)) { res.message = "Import cancelled: the file is for another run."; res.cancelled = true; return res; }
+    }
+    data.checks.forEach(function (c) {
+      if (!c || typeof c !== "object" || typeof c.id !== "string") { res.bad++; return; }
+      if (!Object.prototype.hasOwnProperty.call(byId, c.id)) { res.unknown.push(c.id.slice(0, 40)); return; }
+      var r = c.r === undefined || c.r === null ? "" : c.r;
+      if (r !== "" && RESULTS.indexOf(r) < 0) { res.bad++; return; }
+      var inc = sanitizeEntry({ r: r, n: c.n, at: c.at, src: c.src, ns: c.ns });   /* ns: the note's source survives Export/Import */
+      if (!hasAny(inc)) { res.bad++; return; }
+      var cur = state[c.id];
+      /* A mark from the log never replaces the tester's own mark or note: a person's Fail beats a log line. */
+      if (inc.src === "log" && hasAny(cur) && cur.src !== "log") { res.kept++; return; }
+      if (hasAny(cur) && !(timeOf(inc.at) > timeOf(cur.at))) { res.kept++; return; }
+      /* a newer log mark over an older log mark: take the result, keep a note the tester typed */
+      if (inc.src === "log" && cur && cur.src === "log" && cur.pn && cur.n) { inc.n = cur.n; inc.pn = true; }
+      state[c.id] = inc;
+      res.added++;
+    });
+    res.ok = true;
+    paintAll(true);
+    writeStore();
+    var parts = ["Imported " + res.added + (res.added === 1 ? " check" : " checks") + "."];
+    if (res.kept) parts.push(res.kept + " kept as they were, because the marks here are newer or are your own (a log mark never replaces them).");
+    if (res.unknown.length) parts.push(res.unknown.length + " not on this page and not added: " + res.unknown.slice(0, 12).join(", ") + (res.unknown.length > 12 ? ", ..." : "") + ".");
+    if (res.bad) parts.push(res.bad + " skipped because they were damaged or empty.");
+    if (storeNewer) parts.push("They aren't saved, because this page found marks saved by a newer sf-test-plan and saves nothing until it is reloaded; use Export to keep them.");
+    res.message = parts.join(" ");
+    return res;
+  }
+  function importText(text, opts) {
+    var data;
+    try { data = JSON.parse(text); } catch (e) {
+      return { ok: false, added: 0, kept: 0, unknown: [], bad: 0, message: "This file isn't valid JSON, so it can't be a marks file. Pick a file made by Export or by sf-test-plan logs." };
+    }
+    return importData(data, opts);
+  }
+  var fileInput = $("importfile");
+  if (fileInput) {
+    fileInput.addEventListener("change", function () {
+      var f = fileInput.files && fileInput.files[0];
+      if (!f) return;
+      var rd = new FileReader();
+      rd.onload = function () {
+        var res = importText(String(rd.result));
+        say((f.name ? clean(f.name).slice(0, 120) + ": " : "") + res.message, res.ok ? "ok" : "warn");
+        fileInput.value = "";
+      };
+      rd.onerror = function () { say("Couldn't read that file. Try again, or pick another copy.", "warn"); fileInput.value = ""; };
+      rd.readAsText(f);
+    });
+  }
+
+  /* ---------- copy results ---------- */
+  function sectionTitle(li) {
+    if (hasSmoke && li.closest("#smoke")) return "Smoke test";
+    var s = li.closest("section");
+    var h = s && s.querySelector("h2, h3");
+    return h ? clean(h.textContent) : "";
+  }
+  function report() {
+    flushNotes();
+    var c = counts();
+    var lines = [clean(TITLE || "Test plan") + " results (run " + RUN + ")"];
+    lines.push(c.pass + " pass, " + c.fail + " fail, " + c.skip + " skip, " + c.open + " not run");
+    var last = null;
+    checks.forEach(function (li) {
+      var id = li.getAttribute("data-id");
+      if (!byId[id] || byId[id].li !== li) return;
+      var s = state[id] || {};
+      if (inDeep(li) && !hasAny(s)) return;   /* unmarked optional checks stay out of the report */
+      var head = sectionTitle(li);
+      if (head !== last) { lines.push(""); if (head) lines.push(head); last = head; }
+      var r = s.r ? s.r.toUpperCase() : "NOT RUN";
+      var line = id + " " + r + (s.src === "log" && s.r ? " (from the log)" : "") + ": " + stepText(li);
+      if (hasNote(s)) line += "\n    Note: " + s.n.trim().replace(/\s*\n\s*/g, " / ");
+      lines.push(line);
+    });
+    return lines.join("\n") + "\n";
+  }
+  function doCopy() {
+    var text = report();
+    copyText(text, function (ok) {
+      if (ok) { say("Results copied. Paste them wherever you keep notes.", "ok"); return; }
+      say("Copying is blocked here. Select the text below and copy it.", "warn");
+      var ta = document.createElement("textarea");
+      ta.id = "copy-fallback";
+      ta.className = "copy-fallback";
+      ta.readOnly = true;
+      ta.rows = 10;
+      ta.value = text;
+      ta.setAttribute("aria-label", "Results to copy");
+      msgEl.parentNode.insertBefore(ta, msgEl.nextSibling);
+      ta.focus();
+      ta.select();
+    });
+  }
+
+  /* ---------- reset ---------- */
+  function doReset(opts) {
+    opts = opts || {};
+    var ask = opts.confirm || function (q) { return window.confirm(q); };
+    if (!ask("Clear every mark and note on this page (run " + RUN + ")? Use Export first if you want to keep them.")) {
+      say("Nothing cleared.");
+      return false;
+    }
+    /* Another tab may have saved while the question was open. With no dialog from here on: read storage again
+       (so other builds' newest marks are the ones kept), clear this page's steps, stop the note timers (their
+       write now carries the cleared state), and save. Marks for steps this page doesn't have always stay. */
+    var read = readStore();
+    state = {};
+    dirty = {};
+    flushNotes();
+    paintAll(true);
+    writeStore();
+    var kept = Object.keys(others).length;
+    if (!storageOk) say("Marks and notes on this page cleared here, but this browser isn't saving: reload may bring them back.", "warn");
+    else if (read === "newer") say("Marks and notes on this page cleared here only. This page found marks saved by a newer sf-test-plan, so it saves nothing until it is reloaded.", "warn");
+    else if (read === "damaged") say("Marks and notes on this page cleared. The saved copy in this browser couldn't be read, so it was replaced; Import an Export to bring back marks from other builds.", "warn");
+    else say("Marks and notes on this page cleared." + (kept ? " " + kept + " saved mark" + (kept === 1 ? "" : "s") + " from another build (for steps this page doesn't have) kept." : ""), "ok");
+    return true;
+  }
+
+  /* ---------- toolbar ---------- */
+  if (tools) {
+    tools.addEventListener("click", function (ev) {
+      var b = ev.target && ev.target.closest ? ev.target.closest("button[data-act]") : null;
+      if (!b || !tools.contains(b)) return;
+      var act = b.getAttribute("data-act");
+      if (act === "export") doExport();
+      else if (act === "import") { if (fileInput) fileInput.click(); }
+      else if (act === "copy") doCopy();
+      else if (act === "reset") doReset();
+    });
+  }
+
+  /* Another tab with the same page changed the marks. */
+  window.addEventListener("storage", function (ev) {
+    if (ev.key !== KEY && ev.key !== null) return;   /* null: all site data was cleared */
+    /* Another tab saved, cleared or reset. Its save is the truth, so marks, clears and Reset carry over; only
+       the note typed here and not yet written (dirty) is laid on top of its entry, and then saved. */
+    var mine = state, oursWon = false;
+    state = {};
+    var read = readStore();
+    if (read === "damaged" || read === "newer" || read === "unavailable") {
+      /* Nothing readable to take over (or this page is memory-only after finding a newer format): keep the marks
+         this tab shows, write nothing (so tabs never answer each other's saves), and let the save line say why. */
+      state = mine;
+      sayStatus();
+      return;
+    }
+    Object.keys(dirty).forEach(function (id) {
+      var a = mine[id] || { n: "" };   /* an emptied note counts too: deleting it is the change */
+      var b = state[id] || { r: "", n: "", at: "", src: "page", pn: false };
+      b.n = a.n || ""; b.pn = !!b.n;
+      if ((a.at || "") > (b.at || "")) b.at = a.at;
+      if (hasAny(b)) state[id] = b; else delete state[id];
+      oursWon = true;
+    });
+    paintAll(false);
+    if (oursWon) writeStore();
+    sayStatus();
+  });
+
+  /* A link to #deep (or to anything inside it) opens the folded Deep checks box. */
+  function openDeepFor(hash) {
+    if (!hash || hash.length < 2) return;
+    var name = hash.slice(1);
+    try { name = decodeURIComponent(name); } catch (e) { /* a stray % in the address: use it as written */ }
+    var d = $("deep"), t = document.getElementById(name);
+    if (d && t && (t === d || d.contains(t))) d.open = true;
+  }
+  window.addEventListener("hashchange", function () { openDeepFor(location.hash); });
+  document.addEventListener("click", function (ev) {
+    var a = ev.target && ev.target.closest ? ev.target.closest('a[href^="#"]') : null;
+    if (a) openDeepFor(a.getAttribute("href"));
+  });
+
+  /* ---------- start ---------- */
+  readStore();
+  paintAll(true);
+  sayStatus();
+  openDeepFor(location.hash);   /* after the marks load, so nothing here can stop them */
+
+  /* Test hook (used by tests/page_test.mjs and handy in the console). Read-only views plus the same
+     actions the buttons run; nothing here talks to the network. */
+  window.sfTestplan = {
+    version: 1,
+    key: KEY,
+    storageOk: function () { return storageOk; },
+    marks: function () { return marksData(); },
+    exportName: exportName,
+    importData: importData,
+    importText: importText,
+    report: report,
+    counts: counts,
+    reset: doReset
+  };
+})();
+
+</script>
+</body>
+</html>

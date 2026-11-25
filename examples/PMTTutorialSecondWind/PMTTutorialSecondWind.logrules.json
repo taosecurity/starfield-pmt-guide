@@ -1,0 +1,16 @@
+{
+ "mod": "PMTTutorialSecondWind",
+ "version": "0.1.0",
+ "plugins": ["PMTTutorialSecondWind.esm"],
+ "prefix": "\\[PTSW\\]",
+ "scripts": "PTSW:",
+ "expect": [
+  {"id": "started", "re": "(?i)\\[PTSW\\] started", "means": "Step 1.1: Start a new game and finish the character creator.; Step L.1: The quest script started at the beginning of the game."},
+  {"id": "second-wind", "re": "(?i)\\[PTSW\\] health at .*second wind starts", "means": "Step 2.1, 2.3 and 4.1: a hit below a quarter of your health in combat starts a second wind."},
+  {"id": "cooldown-over", "re": "(?i)\\[PTSW\\] cooldown over", "means": "Step 2.3: two minutes after a second wind, it is ready again."}
+ ],
+ "order": [["started", "second-wind"]],
+ "forbid": [
+  {"id": "no-script-errors", "re": "(?i)error:.*PTSW:", "means": "Step L.2: No Papyrus error names the PTSW script."}
+ ]
+}
