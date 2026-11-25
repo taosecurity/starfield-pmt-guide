@@ -89,11 +89,10 @@ The note is not a quest item, so you can drop, sell or store it. These checks tr
   log: onread, stage-20
 - [ ] Reload the save you made when the note arrived, drop the note again, and read it from the ground by activating it, without picking it up.
   Expect: the note's text shows, stage 20 starts and "Collect 5 Iron" appears.
-  log: onread, stage-20
-  note: If activating the note from the ground doesn't start stage 20, mark this check Fail, pick the note up and read it from your inventory to go on.
+  note: Check this on screen: the log already holds the read lines from check 2, so it can't tell this read apart. If activating the note from the ground doesn't start stage 20, mark this check Fail, pick the note up and read it from your inventory to go on.
 - [ ] Reload the same save, drop the note, leave New Atlantis and come back.
-  Expect: the note is still where you dropped it, and reading it still starts stage 20.
-  log: onread, stage-20
+  Expect: the note is still where you dropped it, and picking it up and reading it from your inventory still starts stage 20.
+  note: Check this on screen, as in check 3. This check asks only whether the dropped note survives the trip, so read it from your inventory even if check 3 failed.
 - [ ] Reload the same save and sell the note to a vendor, or put it in a container you won't come back to, before you read it.
   Expect: the quest stays at stage 10, because you no longer have the note to read and the quest makes no second copy. This is a known limit of the tutorial, not a bug: mark this check Pass if the quest stays at stage 10, then type `setstage PTCR_Quest 20` to go on.
   note: Type `getstage PTCR_Quest` first; it should say 10. Don't buy the note back or take it out again: reading it would start stage 20. If the quest moved on without a read, mark this check Fail and say how you got rid of the note.
@@ -106,7 +105,7 @@ The note is not a quest item, so you can drop, sell or store it. These checks tr
 
 ## Log checks
 
-After play, run papyrus-log-check on the Papyrus log with the rule file `PMTTutorialCourier.logrules.json`.
+After play, run papyrus-log-check on the Papyrus log with the rule file `PMTTutorialCourier.logrules.json`. A log from a session that ran only section 6 never reaches stage 30, so the three stage-30 rules and the order rule show NOT_SEEN there; that is expected.
 
 - [ ] The quest script started at the beginning of the game.
   Expect: a `[PTCR] started` line.
