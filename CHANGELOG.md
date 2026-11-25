@@ -1,5 +1,19 @@
 # Changelog
 
+## 2026-11-25 (update 3)
+
+### What's new
+
+Update 3 of the guide covers the day's tool releases. sf-mod-check 0.19.0 checks quest stages (rules `quest-stage-unset` and `quest-stage-missing`, both warnings), and its `patch` merges quests part by part (stages and objectives by Index, aliases by alias ID, script properties one by one) and builds dialogue topics and lines, while scenes and dialogue branches are still listed for xEdit. sf-mod-check 0.18.0 added the `release` rule `voice-missing` for dialogue lines with no voice file and shows `RESULT: NOT CHECKED` from `patch check` for a patch that isn't active. BuildKit 0.6.0 has quest helpers, and BuildKit 0.6.1 brought back its README's "More examples" section, so the add-on example links to the main README again. sf-mod-build 0.5.0 writes one zip per plugin and names PS5 as untested, and in sf-mod-build 0.5.1 the starter template uses BuildKit 0.6.0, so the guide no longer tells you to raise that version by hand. sf-load-order 0.3.2 runs sf-mod-check's conflict check for an MO2 setup by itself. sf-patch-day 0.4.0 lists the Creations that were added, removed or updated since you last looked. The zips of sf-test-plan 0.4.1 and papyrus-log-check 0.4.3 ship a made-up quest example, Tidewater Errand. Every page now fills in each tool's current version from its release, so the version numbers stay in step.
+
+### Example
+
+Check the quest stages of the tutorial quest A Courier's Request with sf-mod-check 0.19.0. With `--verbose`, the log shows each stage and what sets it. These lines come from a run on the tutorial's 0.1.2 plugin on 2026-11-25 (the other log lines left out):
+
+    > sf-mod-check check dist\PMTTutorialCourier.esm --verbose
+    log: quest stages: PTCR_Quest [QUST:000802:PMTTutorialCourier.esm]: 3 stage(s), 3 set, unset: none
+    RESULT: OK, 0 errors, 0 warnings (PMTTutorialCourier.esm: 5 records, 14 links; 4.3 s)
+
 ## 2026-11-25
 
 ### What's new
