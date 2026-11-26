@@ -1,6 +1,7 @@
 Scriptname PTCR:CourierQuestScript extends Quest
 {A Courier's Request (PMT tutorial). The quest's stages do their work here, in OnStageSet:
-  10  the player is in New Atlantis: give the courier's note, show objective 10
+  10  the player is in New Atlantis: give the courier's note (a quest item, through the Note alias), show
+      objective 10
   20  the note was read: show objective 20 (collect Iron)
   30  the player holds enough Iron: pay the reward, complete and stop the quest, then (after a short wait)
       show the HUD message
@@ -16,6 +17,9 @@ MiscObject Property InorgCommonIron Auto Const Mandatory
 {The game's Iron resource.}
 Message Property PTCR_Msg_Done Auto Const Mandatory
 {The mod's own HUD message at the end. A Message also shows on Xbox and PlayStation.}
+ReferenceAlias Property Alias_Note Auto Const Mandatory
+{The quest's Note alias. Its Quest Item flag makes the note a quest item while the alias holds it, so it can't be
+dropped, sold or stored before it is read.}
 
 Int Property IronNeeded = 5 Auto Const
 Int Property RewardCredits = 100 Auto Const
@@ -35,6 +39,10 @@ Event OnStageSet(int auiStageID, int auiItemID)
 		; stays a persistent reference, put it in the player's inventory, and listen for it being read.
 		NoteRef = player.PlaceAtMe(PTCR_Note, 1, true, true)
 		player.AddItem(NoteRef, 1, false)
+		; Put the note in the Note alias. The alias's Quest Item flag makes it a quest item, so the player can't
+		; drop, sell or store it (a dropped copy would stay disabled and couldn't be read).
+		Alias_Note.ForceRefTo(NoteRef)
+		Log("stage 10: Note alias filled with " + Alias_Note.GetReference() + " (quest item)")
 		RegisterForRemoteEvent(NoteRef, "OnRead")
 		SetObjectiveDisplayed(10)
 		Log("stage 10: note given (" + NoteRef + "), objective 10 shown")
@@ -48,8 +56,12 @@ Event OnStageSet(int auiStageID, int auiItemID)
 		player.AddItem(Game.GetCredits(), RewardCredits)
 		Log("stage 30: " + RewardCredits + " credits paid, quest complete")
 		CompleteQuest()
+		; Empty the Note alias, so the note is a normal item again (stopping the quest clears its aliases too;
+		; this makes it explicit and logs it).
+		Alias_Note.Clear()
+		Log("stage 30: Note alias cleared; the note is a normal item again")
 		; Stop the quest too, as the game's own finished quests are stopped. Without Stop() the quest stays
-		; "running" and the Missions menu doesn't list it under Completed.
+		; "running". (The Missions menu never lists a finished Activity under Completed, so check the save.)
 		Stop()
 		Log("stage 30: quest stopped, HUD line in " + DoneMessageDelay + " seconds")
 		; Wait a few seconds, so the Iron and credits pickup notices have cleared before the HUD line shows.

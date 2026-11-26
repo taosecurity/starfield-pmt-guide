@@ -1,5 +1,19 @@
 # Changelog
 
+## 2026-11-26 (quest tutorial 0.1.2)
+
+### What's new
+
+The quest tutorial, A Courier's Request (`examples/PMTTutorialCourier/`), is at version 0.1.2, which passed its in-game test on 2026-11-26. The courier's note is now a quest item: a second alias, `Note`, with the Quest Object flag holds it from stage 10 to stage 30, so a player can't drop, sell or store it before reading it. Both quest pages (manual and agent) have a new part on keeping a quest's item safe. The test also corrected those pages and the tutorial's walkthrough: the game never lists a finished Activity under Missions > Completed, vanilla ones included, so a quest's end is checked in the save ("stopped, completed"), not in that tab.
+
+### Example
+
+Read the quest's state from a save made after the last stage:
+
+    > sf-save-reader quests <save.sfs> --data --filter PTCR
+    FE05E802 PMTTutorialCourier.esm:802              stopped, completed, stage 30  A Courier's Request  [PTCR_Quest]
+    699 quest records: 699 decoded exactly, 0 not decoded
+
 ## 2026-11-26
 
 ### What's new

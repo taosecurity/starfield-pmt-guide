@@ -14,10 +14,44 @@ sections "Tools and versions" and "0. Set up the tools (once)" (sf-mod-build 0.4
 0.5.0 from NuGet, Mutagen 0.54.4, sf-mod-check 0.16.0, sf-papyrus-ref 0.2.4 with `build-local` done, sf-test-plan
 0.4.0, sf-cut-check 0.2.0, the Steam Creation Kit, .NET SDK 9.0.321, Python 3.13).
 
+## Version 0.1.2 (2026-11-24, passed 2026-11-26): the note is a quest item
+
+A review of 0.1.1 found a way to get stuck that was never seen in game: the note is placed disabled and then added
+to the inventory, so a dropped note could stay invisible, and selling or storing it before reading it also left the
+quest at stage 10. The game's own quest notes can't leave the inventory, because they are quest items.
+
+- **Records:** the quest has a second reference alias, `Note` (ID 1), with the Optional and Quest Object flags
+  (`AQuestAlias.Flag.Optional | AQuestAlias.Flag.QuestObject`), ALFG 0 and an empty voice type, as the Creation Kit
+  writes them. The `Player` alias also gets the empty voice type. The quest script has a new alias property,
+  `Alias_Note`.
+- **Script:** stage 10 adds the note to the inventory and then runs `Alias_Note.ForceRefTo(NoteRef)`. Stage 30 runs
+  `Alias_Note.Clear()` after `CompleteQuest()` and before `Stop()`, so the note becomes a normal item. Both steps
+  log a `[PTCR]` line.
+- **Test plan:** section 6 checks that the note can't be dropped, sold or stored before it is read, and check 4.5
+  that it can be dropped after the quest ends.
+- **Build:** sf-mod-build 0.4.2, sf-mod-check 0.16.1 and sf-papyrus-ref 0.2.4. The outputs further down are still
+  from the 0.1.1 run.
+
+**The in-game test on 2026-11-26** passed every check that was played: 7 of 8 marks passed, and the one failure
+was an error in the plan, not the mod (below). The note couldn't be dropped, sold or moved to the ship's cargo
+before it was read, and reading it still started stage 20. papyrus-log-check 0.4.3 passed all 13 of the mod's
+rules, the save read the quest as "stopped, completed, stage 30", and sf-save-health found no problems. Two things
+the test taught:
+
+- **The Missions menu never lists a finished Activity under Completed.** The plan expected the quest there, so
+  check 4.3 failed. The tester then finished a vanilla Activity, the Viewport bartender's, and it wasn't listed
+  either. The 0.1.1 section below says that a missing `Stop()` kept the quest out of Completed; that was wrong. The
+  missing `Stop()` was real (the save read "running, completed"), but the Completed tab was never the sign of it.
+  Check 4.3 now expects the quest to leave Activities and not to appear under Completed.
+- **The HUD line didn't appear after a console add.** In one run the Iron came from `player.additem 0000556E 5`,
+  sent through the Console API. The quest completed and paid, and the log says the HUD line was shown, but it didn't
+  appear on screen. In the two runs with bought Iron, it did. Check 4.1 now says to use picked-up or bought Iron for
+  the HUD check.
+
 ## Version 0.1.1 (2026-11-24): what changed after the first play-test
 
-The first in-game test of 0.1.0 found two problems. The quest never showed under Missions > Completed, and the
-final HUD line was not seen. A save read with sf-save-reader showed the quest as "running, completed, stage 30",
+The first in-game test of 0.1.0 found two problems. The quest never showed under Missions > Completed (which, the
+0.1.2 test found, is true of every finished Activity), and the final HUD line was not seen. A save read with sf-save-reader showed the quest as "running, completed, stage 30",
 while the game's own finished quests show "stopped, completed". The cause was in the script: stage 30 called
 `CompleteQuest()` but never `Stop()`. The HUD line was probably hidden behind the Iron and credits pickup notices,
 which show at the same moment.
@@ -50,7 +84,8 @@ Quest.Stop  (function)
   1800 and 2100. Reading our plugin back with BuildKit's `GameData.OpenPlugin` printed `PTCR_Quest: 10:0, 20:0,
   30:CompleteQuest`. The plugin stays 2384 bytes, because the flag is one byte that was already there.
 - **Test plan:** two new checks under stage 30: the HUD line appears a few seconds after the reward, and the quest
-  is listed under Missions > Completed.
+  is listed under Missions > Completed. (The 0.1.2 test showed that the game never lists a finished Activity there,
+  so that check now expects the quest not to be listed.)
 - **Build:** `sfmod.json` says 0.1.1, and the build used sf-mod-build 0.4.2, sf-mod-check 0.16.0 and sf-papyrus-ref
   0.2.4. The outputs below are from this 0.1.1 run. Two lines changed from 0.1.0: the Papyrus check no longer needs
   `--allow Debug.Notification` (see "Check"), and the file sizes and checksum.
@@ -63,10 +98,12 @@ Quest.Stop  (function)
   `OnStageSet` event does each stage's work.
 - **Objectives** are the lines the player sees in the Missions menu and on the HUD: 10 "Read the courier's note" and
   20 "Collect 5 Iron".
-- **Alias**: one reference alias, `Player` (ID 0), filled with the player, as the game's own quests do it (its unique
+- **Aliases**: a reference alias, `Player` (ID 0), filled with the player, as the game's own quests do it (its unique
   actor is the `Player` NPC record). Its alias script watches where the player goes and what the player picks up.
+  Since 0.1.2, a second alias, `Note` (ID 1), holds the note as a quest item from stage 10 to stage 30.
 - Stage 10 starts when the player's location is New Atlantis or one of its child locations. The script places the
-  mod's note as a disabled reference, adds it to the player's inventory and listens for its `OnRead` event. Stage 20
+  mod's note as a disabled reference, adds it to the player's inventory, puts it in the `Note` alias (0.1.2) and
+  listens for its `OnRead` event. Stage 20
   starts when that note is read. Stage 30 starts when the player holds 5 Iron; it pays 100 credits, completes and
   stops the quest, and about 3 seconds later shows a HUD Message.
 - Logging and the debug switch are the same as in Second Wind, with the prefix `[PTCR]`.

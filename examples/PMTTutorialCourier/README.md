@@ -3,21 +3,23 @@
 A Courier's Request is the quest mod from the PMT guide's tutorial. It is a small, unvoiced quest with three stages:
 
 1. Stage 10: the first time you arrive in New Atlantis, a courier's note is added to your inventory, and the
-   objective "Read the courier's note" appears.
+   objective "Read the courier's note" appears. The note is a quest item until the quest ends, so you can't drop,
+   sell or store it before you read it.
 2. Stage 20: when you read the note, the objective "Collect 5 Iron" appears.
-3. Stage 30: when you hold 5 Iron, the workshop pays you 100 credits, the quest completes (it moves to Completed in the Missions menu), and about 3 seconds later the HUD says so.
+3. Stage 30: when you hold 5 Iron, the workshop pays you 100 credits, the quest completes and stops (it leaves Activities in the Missions menu; the game never lists a finished Activity under Completed), and about 3 seconds later the HUD says so.
    You keep the Iron.
 
-- Version 0.1.1 passed its in-game test on 2026-11-24, by its log and its save. It fixes two problems found in the play-test of 0.1.0 (see CHANGELOG.md).
+- Version 0.1.2 passed its in-game test on 2026-11-26. It makes the note a quest item, so a dropped, sold or
+  stored note can no longer leave the quest stuck at stage 10 (see CHANGELOG.md).
 - Plugin: `PMTTutorialCourier.esm`, a light master. Its only master is Starfield.esm.
-- It edits no vanilla records and places nothing in vanilla cells. It adds one quest (with one alias, the player),
+- It edits no vanilla records and places nothing in vanilla cells. It adds one quest (with two aliases, the player and the note),
   one note, one HUD message and a "Show Debug Messages (PC only)" switch in its own Gameplay Options group.
 - The quest is listed under Activities in the Missions menu. The end message is a Message record, so it also shows
   on Xbox and PlayStation.
 
 ## Install
 
-Install `PMTTutorialCourier-0.1.1.zip` with Vortex or Mod Organizer 2, or copy `PMTTutorialCourier.esm` and
+Install `PMTTutorialCourier-0.1.2.zip` with Vortex or Mod Organizer 2, or copy `PMTTutorialCourier.esm` and
 `PMTTutorialCourier - Main.ba2` into the game's `Data` folder and add the plugin to your load order. A new
 character is the cleanest test. On a character who is already in New Atlantis, the note arrives as soon as the mod
 loads.
@@ -61,8 +63,8 @@ sf-mod-build build
 ```
 
 `build` compiles the two scripts in `Scripts\Source\PTCR`, runs the builder in `Builder` (BuildKit 0.5.0 and Mutagen
-0.54.4; the quest's stages, objectives and alias are written with plain Mutagen calls), packs the scripts into
-`dist\PMTTutorialCourier - Main.ba2`, writes `PMTTutorialCourier-0.1.1.zip` and checks it. With `"xbox": true` in
+0.54.4; the quest's stages, objectives and aliases are written with plain Mutagen calls), packs the scripts into
+`dist\PMTTutorialCourier - Main.ba2`, writes `PMTTutorialCourier-0.1.2.zip` and checks it. With `"xbox": true` in
 `sfmod.json`, it also writes the Creations set, with `PMTTutorialCourier - Main_xbox.ba2`, into `creations-out`.
 `WALKTHROUGH.md` has every command and its output, and `PMTTutorialCourier.testplan.md` is the test plan.
 

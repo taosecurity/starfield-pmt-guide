@@ -2,7 +2,7 @@
 // Check this file with:  sf-mod-build validate
 {
   "plugin": "PMTTutorialCourier.esm",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "scripts": {
     "source": "Scripts/Source",
     "namespaces": ["PTCR"]

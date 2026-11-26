@@ -4,7 +4,7 @@
 //
 // Records (all new, prefix PTCR_; no vanilla record is edited; Starfield.esm is opened for lookups
 // and becomes a master because the records point into it):
-//   QUST PTCR_Quest            "A Courier's Request": stages 10, 20, 30, objectives 10 and 20, one alias (Player)
+//   QUST PTCR_Quest            "A Courier's Request": stages 10, 20, 30, objectives 10 and 20, two aliases (Player, Note)
 //   BOOK PTCR_Note             the courier's note (a copy of a vanilla note's shape, with our own name and text)
 //   MESG PTCR_Msg_Done         the HUD line at the end (a Message also shows on Xbox and PlayStation)
 //   GMOP PTCR_Option_Debug     Settings > Gameplay Options: "Show Debug Messages (PC only)", off by default
@@ -100,16 +100,33 @@ quest.Stages.Add(Stage(30, "I collected the Iron, and the workshop paid me for i
 quest.Objectives.Add(new QuestObjective { Index = 10, Flags = 0, DisplayText = "Read the courier's note" });
 quest.Objectives.Add(new QuestObjective { Index = 20, Flags = 0, DisplayText = "Collect 5 Iron" });
 
+// Every alias gets ALFG = 0 and an empty voice type (VTCK), as the Creation Kit writes them; without ALFG the
+// game loses the next alias.
 const int PlayerAliasId = 0;
+const int NoteAliasId = 1;
 var playerAlias = new QuestReferenceAlias
 {
     ID = PlayerAliasId,
     Name = "Player",
     Flags = 0,
     ALFG = 0,
+    VoiceTypes = new FormLinkNullable<IAliasVoiceTypeGetter>(FormKey.Null),
 };
 playerAlias.UniqueActor.SetTo(playerNpc);
 quest.Aliases.Add(playerAlias);
+
+// 0.1.2: the note's alias. It starts empty (Optional) and the quest script fills it with ForceRefTo at stage 10.
+// The Quest Item flag makes the note a quest item while the alias holds it, as the game's own quest notes are:
+// it can't be dropped, sold or stored, so the player can always read it. The quest's Stop() at stage 30 clears
+// the alias, and the note becomes a normal item.
+quest.Aliases.Add(new QuestReferenceAlias
+{
+    ID = NoteAliasId,
+    Name = "Note",
+    Flags = AQuestAlias.Flag.Optional | AQuestAlias.Flag.QuestObject,
+    ALFG = 0,
+    VoiceTypes = new FormLinkNullable<IAliasVoiceTypeGetter>(FormKey.Null),
+});
 
 // ---- gameplay options (options first, group last) ----------------------------------------------
 var optDebug = GameplayOptions.Debug(mod, "PTCR_Option_Debug", "A Courier's Request's log lines on screen");
@@ -124,6 +141,8 @@ questScript.Properties.Add(Prop("PTCR_Option_Debug", optDebug.FormKey));
 questScript.Properties.Add(Prop("PTCR_Note", note.FormKey));
 questScript.Properties.Add(Prop("InorgCommonIron", iron.FormKey));
 questScript.Properties.Add(Prop("PTCR_Msg_Done", done.FormKey));
+// An alias property points at the quest and the alias ID.
+questScript.Properties.Add(new ScriptObjectProperty { Name = "Alias_Note", Object = quest.ToLink<IStarfieldMajorRecordGetter>(), Alias = NoteAliasId });
 
 var aliasScript = new ScriptEntry { Name = "PTCR:CourierPlayerAliasScript", Flags = ScriptEntry.Flag.Local };
 aliasScript.Properties.Add(Prop("CityNewAtlantisLocation", newAtlantis.FormKey));

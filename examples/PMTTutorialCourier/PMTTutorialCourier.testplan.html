@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PMTTutorialCourier test plan</title>
-<meta name="generator" content="sf-test-plan 0.4.0">
+<meta name="generator" content="sf-test-plan 0.4.1">
 <style>
 /* sf-test-plan page style. One reading column: a header with facts, a sticky tally and toolbar, then the checks.
    Light and dark follow the system; set data-theme="light" or "dark" on <html> to force one. System fonts only. */
@@ -147,68 +147,70 @@ footer{font-size:14px; color:var(--muted); display:grid; gap:6px}
 <header>
   <div class="eyebrow">Test plan</div>
   <h1>PMTTutorialCourier test plan</h1>
-  <p>This plan tests A Courier&#x27;s Request (PMTTutorialCourier) 0.1.1, the quest mod from the PMT guide&#x27;s tutorial. The quest has three stages: stage 10 gives you a note when you first reach New Atlantis, stage 20 starts when you read the note and asks for 5 Iron, and stage 30 pays 100 credits, completes and stops the quest once you hold 5 Iron, and shows a HUD line about 3 seconds later. Version 0.1.1 fixes two problems found in the play-test of 0.1.0: the quest was not listed under Completed, and the HUD line was lost among the pickup notices. Start with the smoke test; the deep checks try the edge cases.</p>
+  <p>This plan tests A Courier&#x27;s Request (PMTTutorialCourier) 0.1.2, the quest mod from the PMT guide&#x27;s tutorial. The quest has three stages: stage 10 gives you a note (a quest item) when you first reach New Atlantis, stage 20 starts when you read the note and asks for 5 Iron, and stage 30 pays 100 credits, completes and stops the quest once you hold 5 Iron, and shows a HUD line about 3 seconds later. Version 0.1.1 fixes two problems found in the play-test of 0.1.0: the quest kept running after it completed, and the HUD line was lost among the pickup notices. (The 0.1.2 test showed that a finished Activity is never listed under Completed, vanilla ones included, so that tab is not a sign of either.) Version 0.1.2 makes the note a quest item until the quest ends, so you can&#x27;t drop, sell or store it before you read it (a review found that a dropped note could stay invisible, which would stick the quest at stage 10). Start with the smoke test; the deep checks try the edge cases.</p>
   <dl class="facts">
     <div><dt>Mod</dt><dd>PMTTutorialCourier</dd></div>
-    <div><dt>Version</dt><dd>0.1.1</dd></div>
-    <div><dt>Zip</dt><dd>PMTTutorialCourier-0.1.1.zip</dd></div>
-    <div><dt>Run</dt><dd>pmttutorialcourier-0.1.1</dd></div>
+    <div><dt>Version</dt><dd>0.1.2</dd></div>
+    <div><dt>Zip</dt><dd>PMTTutorialCourier-0.1.2.zip</dd></div>
+    <div><dt>Run</dt><dd>pmttutorialcourier-0.1.2</dd></div>
   </dl>
   <p class="muted how"><strong>Smoke test first.</strong> The checks in the Smoke test box are the core ones. The deep checks are optional: open them before a public release, or when something looks wrong. Mark each check Pass, Fail or Skip and add a note if something looks wrong. Your marks are saved in this browser as you go. Use <strong>Export</strong> to save them to a file you can share or import later.</p>
   <nav class="toc" aria-label="On this page"><a href="#prep">Before you start</a><a href="#smoke">Smoke test</a><a href="#deep">Deep checks</a><a href="#log-checks">Checks in the logs</a><a href="#log-lines">What the log lines mean</a><a href="#results">Results log</a></nav>
 </header>
 <div class="topbar" role="region" aria-label="Results">
-  <div class="bar" id="tally" data-total="9"><span class="tally-item tally-pass"><b>0</b> pass</span> <span class="tally-item tally-fail"><b>0</b> fail</span> <span class="tally-item tally-skip"><b>0</b> skip</span> <span class="tally-item tally-open"><b>9</b> not run</span> <span class="tally-total">of 9 checks</span></div>
+  <div class="bar" id="tally" data-total="8"><span class="tally-item tally-pass"><b>0</b> pass</span> <span class="tally-item tally-fail"><b>0</b> fail</span> <span class="tally-item tally-skip"><b>0</b> skip</span> <span class="tally-item tally-open"><b>8</b> not run</span> <span class="tally-total">of 8 checks</span></div>
   <div class="tools" id="tools"><button type="button" data-act="export">Export</button><button type="button" data-act="import">Import</button><button type="button" data-act="copy">Copy results</button><button type="button" data-act="reset">Reset</button><input type="file" id="importfile" accept=".json,application/json" hidden></div>
   <span id="saved" class="saved" aria-live="polite"></span>
 </div>
 <section class="prep" id="prep">
   <h2>Before you start</h2>
   <ol>
-    <li>Install PMTTutorialCourier-0.1.1.zip with your mod manager and enable it.</li>
+    <li>Install PMTTutorialCourier-0.1.2.zip with your mod manager and enable it.</li>
     <li>Turn on Papyrus logging (the mod&#x27;s README says how), so the log shows the mod&#x27;s <code>[PTCR]</code> lines.</li>
     <li>Start a new character, so an old save doesn&#x27;t hide problems.</li>
   </ol>
 </section>
 <section class="smoke" id="smoke" data-group="smoke">
-  <h2><span class="n">S</span> Smoke test (9 checks)</h2>
+  <h2><span class="n">S</span> Smoke test (8 checks)</h2>
   <p class="muted">Do these in this order. Each one keeps its number from its group.</p>
   <ul class="checks">
     <li class="check" data-id="1.1" data-group="1" data-smoke="1" data-log="started"><div class="what"><span class="id">1.1</span><div class="step">Start a new game and finish the character creator.</div><div class="expect">Expect: no error message about PMTTutorialCourier.</div><div class="bylog">Also checked from the Papyrus log: <code>started</code></div><div class="from">From group 1: Install and load</div></div></li>
-    <li class="check" data-id="1.2" data-group="1" data-smoke="1" data-log=""><div class="what"><span class="id">1.2</span><div class="step">Open Settings &gt; Gameplay Options.</div><div class="expect">Expect: a group named &quot;A Courier&#x27;s Request (PMT Tutorial)&quot; with &quot;Show Debug Messages (PC only)&quot;, set to off.</div><div class="from">From group 1: Install and load</div></div></li>
     <li class="check" data-id="2.1" data-group="2" data-smoke="1" data-log="stage-10"><div class="what"><span class="id">2.1</span><div class="step">Play until you first arrive in New Atlantis (or land at the New Atlantis spaceport later in the game).</div><div class="expect">Expect: &quot;A Courier&#x27;s Request&quot; is added to your inventory, and a new objective, &quot;Read the courier&#x27;s note&quot;, appears.</div><div class="bylog">Also checked from the Papyrus log: <code>stage-10</code></div><div class="from">From group 2: Stage 10: the note</div></div></li>
-    <li class="check" data-id="2.2" data-group="2" data-smoke="1" data-log=""><div class="what"><span class="id">2.2</span><div class="step">Open the Missions menu and look under Activities.</div><div class="expect">Expect: &quot;A Courier&#x27;s Request&quot; is listed with the objective &quot;Read the courier&#x27;s note&quot;.</div><div class="from">From group 2: Stage 10: the note</div></div></li>
-    <li class="check" data-id="3.1" data-group="3" data-smoke="1" data-log="onread stage-20"><div class="what"><span class="id">3.1</span><div class="step">Read the note from your inventory (Inventory &gt; Notes, then Read).</div><div class="expect">Expect: the note&#x27;s text asks for 5 Iron. The first objective is completed, and &quot;Collect 5 Iron&quot; appears.</div><div class="bylog">Also checked from the Papyrus log: <code>onread</code> <code>stage-20</code></div><div class="from">From group 3: Stage 20: read the note</div></div></li>
-    <li class="check" data-id="4.1" data-group="4" data-smoke="1" data-log="iron-check stage-30"><div class="what"><span class="id">4.1</span><div class="step">Close every menu (inventory, Missions, the console) before you take the 5th Iron, so you can see the HUD line that follows. Then pick up Iron until you hold 5 (or type <code class="cmd">player.additem 0000556E 5</code> in the console, and close it at once).</div><div class="expect">Expect: the objective &quot;Collect 5 Iron&quot; is completed and your credits go up by 100.</div><div class="bylog">Also checked from the Papyrus log: <code>iron-check</code> <code>stage-30</code></div><div class="from">From group 4: Stage 30: collect the Iron</div></div></li>
-    <li class="check" data-id="4.2" data-group="4" data-smoke="1" data-log="stage-30-hud"><div class="what"><span class="id">4.2</span><div class="step">Watch the HUD for about 5 seconds after the reward.</div><div class="expect">Expect: a few seconds after the Iron and credits pickup notices, a HUD line says &quot;A Courier&#x27;s Request: done. The workshop paid you 100 credits.&quot;</div><div class="bylog">Also checked from the Papyrus log: <code>stage-30-hud</code></div><div class="from">From group 4: Stage 30: collect the Iron</div></div></li>
-    <li class="check" data-id="4.3" data-group="4" data-smoke="1" data-log="stage-30-stopped"><div class="what"><span class="id">4.3</span><div class="step">Open the Missions menu and look at the Completed tab.</div><div class="expect">Expect: &quot;A Courier&#x27;s Request&quot; is listed under Completed, and it is no longer listed as an active quest under Activities.</div><div class="hint">Version 0.1.0 left the quest running, so the Completed tab did not list it. If it still isn&#x27;t listed, mark this check Fail and note what the Activities tab shows.</div><div class="bylog">Also checked from the Papyrus log: <code>stage-30-stopped</code></div><div class="from">From group 4: Stage 30: collect the Iron</div></div></li>
-    <li class="check" data-id="6.1" data-group="6" data-smoke="1" data-log=""><div class="what"><span class="id">6.1</span><div class="step">Save while the quest is at stage 10 or 20, quit to the main menu and load the save.</div><div class="expect">Expect: the objective is still shown, and reading the note or collecting the Iron still moves the quest on.</div><div class="from">From group 6: Save and load</div></div></li>
+    <li class="check" data-id="3.1" data-group="3" data-smoke="1" data-log="onread"><div class="what"><span class="id">3.1</span><div class="step">Read the note from your inventory (Inventory &gt; Notes, then Read).</div><div class="expect">Expect: the note&#x27;s text asks for 5 Iron. The first objective is completed, and &quot;Collect 5 Iron&quot; appears.</div><div class="hint">Only the <code>OnRead</code> log line proves the read: <code class="cmd">setstage PTCR_Quest 20</code> writes the same stage 20 line as a read does.</div><div class="bylog">Also checked from the Papyrus log: <code>onread</code></div><div class="from">From group 3: Stage 20: read the note</div></div></li>
+    <li class="check" data-id="4.1" data-group="4" data-smoke="1" data-log="iron-check stage-30"><div class="what"><span class="id">4.1</span><div class="step">Close every menu (inventory, Missions, the console) before you take the 5th Iron, so you can see the HUD line that follows. Then pick up or buy Iron until you hold 5.</div><div class="expect">Expect: the objective &quot;Collect 5 Iron&quot; is completed and your credits go up by 100.</div><div class="hint">The console shortcut <code class="cmd">player.additem 0000556E 5</code> also completes the quest, but in the 0.1.2 test (2026-11-26) the HUD line of the next check didn&#x27;t appear after a console add (sent through the Console API), although the log says it was shown. Use picked-up or bought Iron when you test the HUD line.</div><div class="bylog">Also checked from the Papyrus log: <code>iron-check</code> <code>stage-30</code></div><div class="from">From group 4: Stage 30: collect the Iron</div></div></li>
+    <li class="check" data-id="4.2" data-group="4" data-smoke="1" data-log="stage-30-hud"><div class="what"><span class="id">4.2</span><div class="step">Watch the HUD for a few seconds after the reward.</div><div class="expect">Expect: about 3 seconds after the reward, once the Iron and credits pickup notices have cleared, a HUD line says &quot;A Courier&#x27;s Request: done. The workshop paid you 100 credits.&quot;</div><div class="bylog">Also checked from the Papyrus log: <code>stage-30-hud</code></div><div class="from">From group 4: Stage 30: collect the Iron</div></div></li>
+    <li class="check" data-id="4.3" data-group="4" data-smoke="1" data-log="stage-30-stopped"><div class="what"><span class="id">4.3</span><div class="step">Open the Missions menu and look at the Completed tab.</div><div class="expect">Expect: &quot;A Courier&#x27;s Request&quot; is no longer listed under Activities, and it isn&#x27;t listed under Completed either, because the game never lists a finished Activity there (a vanilla Activity isn&#x27;t listed either).</div><div class="hint">Version 0.1.0 left the quest running, so the Completed tab did not list it. If it still isn&#x27;t listed, mark this check Fail and note what the Activities tab shows.</div><div class="bylog">Also checked from the Papyrus log: <code>stage-30-stopped</code></div><div class="from">From group 4: Stage 30: collect the Iron</div></div></li>
+    <li class="check" data-id="6.1" data-group="6" data-smoke="1" data-log="note-alias"><div class="what"><span class="id">6.1</span><div class="group-intro">Since 0.1.2 the note is a quest item until the quest ends, as the game&#x27;s own quest notes are. Do this check before you read the note.</div><div class="step">When the note arrives, open your inventory, select the note and try to drop it. Then, at a vendor, look for the note in your items to sell, and at your ship&#x27;s cargo hold, try to store it.</div><div class="expect">Expect: the note can&#x27;t be dropped or sold (it&#x27;s a quest item): the game won&#x27;t drop it, it isn&#x27;t in the vendor&#x27;s sell list, and it can&#x27;t be stored. The objective stays at &quot;Read the courier&#x27;s note&quot;, and reading the note afterwards still starts stage 20.</div><div class="hint">If the note does drop, look for it on the ground and say whether you can see it: 0.1.1 placed it disabled, so a dropped note could stay invisible. If you can&#x27;t read it, type <code class="cmd">getstage PTCR_Quest</code> (it should say 10), then type <code class="cmd">setstage PTCR_Quest 20</code> to go on. Mark this check Fail either way.</div><div class="bylog">Also checked from the Papyrus log: <code>note-alias</code></div><div class="from">From group 6: The note is a quest item</div></div></li>
+    <li class="check" data-id="7.1" data-group="7" data-smoke="1" data-log=""><div class="what"><span class="id">7.1</span><div class="step">Save while the quest is at stage 10 or 20, quit to the main menu and load the save.</div><div class="expect">Expect: the objective is still shown, and reading the note or collecting the Iron still moves the quest on.</div><div class="from">From group 7: Save and load</div></div></li>
   </ul>
 </section>
-<details class="deep" id="deep"><summary>Deep checks (optional): 8 more</summary>
+<details class="deep" id="deep"><summary>Deep checks (optional): 11 more</summary>
 <section class="group" id="g1" data-group="1">
   <h2><span class="n">1</span> Install and load</h2>
   <ul class="checks">
+    <li class="check" data-id="1.2" data-group="1" data-smoke="0" data-log=""><div class="what"><span class="id">1.2</span><div class="step">Open Settings &gt; Gameplay Options.</div><div class="expect">Expect: a group named &quot;A Courier&#x27;s Request (PMT Tutorial)&quot; with &quot;Show Debug Messages (PC only)&quot;, set to off.</div></div></li>
     <li class="check" data-id="1.3" data-group="1" data-smoke="0" data-log=""><div class="what"><span class="id">1.3</span><div class="step">Before you reach New Atlantis, open the console and type <code class="cmd">getstage PTCR_Quest</code>.</div><div class="expect">Expect: 0, because no stage has been set yet.</div></div></li>
   </ul>
 </section>
 <section class="group" id="g2" data-group="2">
   <h2><span class="n">2</span> Stage 10: the note</h2>
   <ul class="checks">
+    <li class="check" data-id="2.2" data-group="2" data-smoke="0" data-log=""><div class="what"><span class="id">2.2</span><div class="step">Open the Missions menu and look under Activities.</div><div class="expect">Expect: &quot;A Courier&#x27;s Request&quot; is listed with the objective &quot;Read the courier&#x27;s note&quot;.</div></div></li>
     <li class="check" data-id="2.3" data-group="2" data-smoke="0" data-log=""><div class="what"><span class="id">2.3</span><div class="step">Look at the ground where you stood when the note arrived.</div><div class="expect">Expect: no copy of the note lies in the world; the only copy is in your inventory.</div></div></li>
-    <li class="check" data-id="2.4" data-group="2" data-smoke="0" data-log=""><div class="what"><span class="id">2.4</span><div class="step">Type <code class="cmd">getstage PTCR_Quest</code> in the console.</div><div class="expect">Expect: 10.</div><div class="hint">If stage 10 never starts, type <code class="cmd">setstage PTCR_Quest 10</code> to go on, and mark this group Fail with a note of where you were.</div></div></li>
+    <li class="check" data-id="2.4" data-group="2" data-smoke="0" data-log=""><div class="what"><span class="id">2.4</span><div class="step">Type <code class="cmd">getstage PTCR_Quest</code> in the console.</div><div class="expect">Expect: 10.</div><div class="hint">If stage 10 never starts, note what <code class="cmd">getstage PTCR_Quest</code> says, then type <code class="cmd">setstage PTCR_Quest 10</code> to go on, and mark this group Fail with a note of where you were.</div></div></li>
   </ul>
 </section>
 <section class="group" id="g3" data-group="3">
   <h2><span class="n">3</span> Stage 20: read the note</h2>
   <ul class="checks">
-    <li class="check" data-id="3.2" data-group="3" data-smoke="0" data-log=""><div class="what"><span class="id">3.2</span><div class="step">Type <code class="cmd">getstage PTCR_Quest</code> in the console.</div><div class="expect">Expect: 20.</div><div class="hint">If reading the note doesn&#x27;t start stage 20, type <code class="cmd">setstage PTCR_Quest 20</code> to go on, and mark this check Fail.</div></div></li>
+    <li class="check" data-id="3.2" data-group="3" data-smoke="0" data-log="stage-20"><div class="what"><span class="id">3.2</span><div class="step">Type <code class="cmd">getstage PTCR_Quest</code> in the console.</div><div class="expect">Expect: 20.</div><div class="hint">If reading the note doesn&#x27;t start stage 20, note what <code class="cmd">getstage PTCR_Quest</code> says, then type <code class="cmd">setstage PTCR_Quest 20</code> to go on, and mark this check and the one before it Fail.</div><div class="bylog">Also checked from the Papyrus log: <code>stage-20</code></div></div></li>
   </ul>
 </section>
 <section class="group" id="g4" data-group="4">
   <h2><span class="n">4</span> Stage 30: collect the Iron</h2>
   <ul class="checks">
     <li class="check" data-id="4.4" data-group="4" data-smoke="0" data-log=""><div class="what"><span class="id">4.4</span><div class="step">Type <code class="cmd">getstage PTCR_Quest</code> in the console.</div><div class="expect">Expect: 30.</div></div></li>
+    <li class="check" data-id="4.5" data-group="4" data-smoke="0" data-log="note-alias-cleared"><div class="what"><span class="id">4.5</span><div class="step">Open your inventory, select the note and drop it.</div><div class="expect">Expect: the note leaves your inventory, because it is a normal item again once the quest ends.</div><div class="hint">Whether you can see the dropped note on the ground doesn&#x27;t matter here; the quest is over.</div><div class="bylog">Also checked from the Papyrus log: <code>note-alias-cleared</code></div></div></li>
   </ul>
 </section>
 <section class="group" id="g5" data-group="5">
@@ -222,7 +224,7 @@ footer{font-size:14px; color:var(--muted); display:grid; gap:6px}
 </details>
 <section class="ref" id="log-checks">
   <h2>Checks in the logs</h2>
-  <p>After play, run papyrus-log-check on the Papyrus log with the rule file <code>PMTTutorialCourier.logrules.json</code>.</p>
+  <p>After play, run papyrus-log-check on the Papyrus log with the rule file <code>PMTTutorialCourier.logrules.json</code>. A log from a session that stops before stage 30 shows the four stage-30 rules and the order rule as NOT SEEN; that is expected. A skipped check&#x27;s log rules show as NOT SEEN too (for example <code>onread</code> when check 3.1 is skipped), and so does the order rule. A console <code>setstage</code> writes the stage&#x27;s log line, so the <code>stage-10</code>, <code>stage-20</code> and <code>stage-30</code> rules can pass without the play that normally sets the stage; the <code>onread</code> and <code>iron-check</code> rules are the ones that prove the read and the pickup.</p>
   <p class="muted">Check these in the logs after you play. They aren't marked on this page and don't count in the tally.</p>
   <div class="tbl"><table>
     <thead><tr><th>#</th><th>What</th><th>Expected</th></tr></thead>
@@ -240,12 +242,14 @@ footer{font-size:14px; color:var(--muted); display:grid; gap:6px}
     <tbody>
       <tr><td>started</td><td><code>(?i)\[PTCR\] started</code></td><td>Expected</td><td>Step 1.1: Start a new game and finish the character creator.; Step L.1: The quest script started at the beginning of the game.</td></tr>
       <tr><td>stage-10</td><td><code>(?i)\[PTCR\] stage 10: note given</code></td><td>Expected</td><td>Step 2.1: Play until you first arrive in New Atlantis (or land at the New Atlantis spaceport later in the game).</td></tr>
-      <tr><td>onread</td><td><code>(?i)\[PTCR\] OnRead from</code></td><td>Expected</td><td>Step 3.1: Read the note from your inventory (Inventory &gt; Notes, then Read).</td></tr>
-      <tr><td>stage-20</td><td><code>(?i)\[PTCR\] stage 20: note read</code></td><td>Expected</td><td>Step 3.1: Read the note from your inventory (Inventory &gt; Notes, then Read).</td></tr>
-      <tr><td>iron-check</td><td><code>(?i)\[PTCR\] Iron check: \d+ of 5</code></td><td>Expected</td><td>Step 4.1: Pick up Iron until you hold 5 (or type player.additem 0000556E 5 in the console).</td></tr>
-      <tr><td>stage-30</td><td><code>(?i)\[PTCR\] stage 30: 100 credits paid</code></td><td>Expected</td><td>Step 4.1: Pick up Iron until you hold 5 (or type player.additem 0000556E 5 in the console).; Step 5.1: On a second new character, pick up 5 Iron before you reach New Atlantis, then arrive and read the note.</td></tr>
+      <tr><td>note-alias</td><td><code>(?i)\[PTCR\] stage 10: Note alias filled with .*\(quest item\)</code></td><td>Expected</td><td>Step 6.1: When the note arrives, open your inventory, select the note and try to drop it. Then, at a vendor, look for the note in your items to sell, and at your ship&#x27;s cargo hold, try to store it.</td></tr>
+      <tr><td>onread</td><td><code>(?i)\[PTCR\] OnRead from</code></td><td>Expected</td><td>Step 3.1: Read the note from your inventory (Inventory &gt; Notes, then Read). Only a real read writes this line.</td></tr>
+      <tr><td>stage-20</td><td><code>(?i)\[PTCR\] stage 20: note read</code></td><td>Expected</td><td>Step 3.2: Type getstage PTCR_Quest in the console. Stage 20 started; setstage PTCR_Quest 20 writes this line too, so it doesn&#x27;t prove a read (the onread rule does).</td></tr>
+      <tr><td>iron-check</td><td><code>(?i)\[PTCR\] Iron check: \d+ of 5</code></td><td>Expected</td><td>Step 4.1: Close every menu (inventory, Missions, the console) before you take the 5th Iron, so you can see the HUD line that follows. Then pick up Iron until you hold 5 (or type player.additem 0000556E 5 in the console, and close it at once).</td></tr>
+      <tr><td>stage-30</td><td><code>(?i)\[PTCR\] stage 30: 100 credits paid</code></td><td>Expected</td><td>Step 4.1: Close every menu (inventory, Missions, the console) before you take the 5th Iron, so you can see the HUD line that follows. Then pick up Iron until you hold 5 (or type player.additem 0000556E 5 in the console, and close it at once).; Step 5.1: On a second new character, pick up 5 Iron before you reach New Atlantis, then arrive and read the note.</td></tr>
+      <tr><td>note-alias-cleared</td><td><code>(?i)\[PTCR\] stage 30: Note alias cleared</code></td><td>Expected</td><td>Step 4.5: Open your inventory, select the note and drop it.</td></tr>
       <tr><td>stage-30-stopped</td><td><code>(?i)\[PTCR\] stage 30: quest stopped, HUD line in</code></td><td>Expected</td><td>Step 4.3: Open the Missions menu and look at the Completed tab.</td></tr>
-      <tr><td>stage-30-hud</td><td><code>(?i)\[PTCR\] stage 30: HUD line shown</code></td><td>Expected</td><td>Step 4.2: Watch the HUD for about 5 seconds after the reward.</td></tr>
+      <tr><td>stage-30-hud</td><td><code>(?i)\[PTCR\] stage 30: HUD line shown</code></td><td>Expected</td><td>Step 4.2: Watch the HUD for a few seconds after the reward.</td></tr>
       <tr><td>no-script-errors</td><td><code>(?i)error:.*PTCR:</code></td><td>Must not appear</td><td>Step L.2: No Papyrus error names a PTCR script.</td></tr>
     </tbody>
   </table></div>
@@ -256,15 +260,17 @@ footer{font-size:14px; color:var(--muted); display:grid; gap:6px}
   <div class="tbl"><table>
     <thead><tr><th>Date</th><th>Run</th><th>Test</th><th>What happened</th><th>Notes</th></tr></thead>
     <tbody>
+      <tr><td>2026-11-26</td><td>pmttutorialcourier-0.1.2</td><td>0.1.2 (log package StarfieldLogs-20261126-120159)</td><td>Three runs (two after save reloads). Log PASS (13 of 13 rules, no script errors). The save shows the quest stopped, completed, stage 30. Missions &gt; Completed never lists the quest (4.3 fail, all three runs).</td><td>Run 1 added the Iron with player.additem through the Console API: credits paid and the quest ended, but the HUD line didn&#x27;t appear on screen, though the log says it was shown at 11:54:24. Runs 2 and 3 used bought Iron and showed the HUD line. Run 3 covered the already-dropped-Iron case. 4.3 is a test plan error: the user confirmed on 2026-11-26 that the game never lists finished Activities under Completed (a vanilla Viewport bartender Activity wasn&#x27;t listed either). The 4 crash events are from earlier sessions without the Courier. Save Health: no problems.</td></tr>
+      <tr><td>2026-11-26</td><td>pmttutorialcourier-0.1.2</td><td>Smoke test</td><td>7 pass, 1 fail, 0 skip, 0 not run</td><td>4.3 fail: I do not see anything in COmpleted other than Into the Unknown and One Small Step.; 4.1 pass: Adding via console command did not work. I bought via Jemison Mercantile and I saw the mission complete.; 4.2 pass: I saw the message.; 6.1 pass: I could not drop it. I could not sell it. I could not move it to my ship inventory.</td></tr>
       <tr><td>2026-11-24</td><td>pmttutorialcourier-0.1.0</td><td>Smoke test</td><td>7 pass, 0 fail, 0 skip, 0 not run</td><td>1.2 pass: Default says Disable; 4.1 pass: However, I do not see the completed task in the mission tracker. I enabled &quot;show all targets&quot;.</td></tr>
     </tbody>
   </table></div>
 </section>
 <footer>
-  <p>Made with <a href="https://github.com/taosecurity/sf-test-plan" rel="noopener">sf-test-plan 0.4.0</a>. Marks are kept in this browser under the run <code>pmttutorialcourier-0.1.1</code>; a new run starts with empty marks. If the line under the tally says saving isn't available, use <strong>Export</strong> before you close the page.</p>
+  <p>Made with <a href="https://github.com/taosecurity/sf-test-plan" rel="noopener">sf-test-plan 0.4.1</a>. Marks are kept in this browser under the run <code>pmttutorialcourier-0.1.2</code>; a new run starts with empty marks. If the line under the tally says saving isn't available, use <strong>Export</strong> before you close the page.</p>
 </footer>
 </div>
-<script type="application/json" id="tp-config">{"format": "sf-test-plan-page/1", "run": "pmttutorialcourier-0.1.1", "title": "PMTTutorialCourier test plan", "tool": "sf-test-plan 0.4.0", "mod": "PMTTutorialCourier", "version": "0.1.1", "zip": "PMTTutorialCourier-0.1.1.zip", "total": 9, "plan": "1cc1ac6fb26a"}</script>
+<script type="application/json" id="tp-config">{"format": "sf-test-plan-page/1", "run": "pmttutorialcourier-0.1.2", "title": "PMTTutorialCourier test plan", "tool": "sf-test-plan 0.4.1", "mod": "PMTTutorialCourier", "version": "0.1.2", "zip": "PMTTutorialCourier-0.1.2.zip", "total": 8, "plan": "57e40a3eeb7a"}</script>
 <script type="application/json" id="tp-logchecks">[{"id": "L.1", "kind": "log only", "what": "The quest script started at the beginning of the game.", "expect": "a [PTCR] started line.", "log": ["started"]}, {"id": "L.2", "kind": "log only", "what": "No Papyrus error names a PTCR script.", "expect": "no error: line that names PTCR:CourierQuestScript or PTCR:CourierPlayerAliasScript.", "log": ["no-script-errors"]}]</script>
 <script>
 (function () {
