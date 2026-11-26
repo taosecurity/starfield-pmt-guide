@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026-11-26
+
+### What's new
+
+The guide now names sf-mod-check 0.23.0, in one update for its four releases from 0.20.0 to 0.23.0. Readers who have 0.19.0 should update. Since 0.20.0, `patch` no longer loses an entry when both mods remove the same quest stage or objective entry and one of them also adds another. For example, with base [A, B], one mod giving [A, C] and the other giving [A], 0.19.0 gave [A] and 0.20.0 gives [A, C]. The releases also added `find --full`, `--versions`, `--refs` and `--layout`, the commands `lines`, `voice-lines`, `ba2` and `voice-format`, and `release` warnings for sound events that no loaded sound bank holds. The guide's pages don't teach these new commands yet. The download table on the Getting started page and every "What you need" list name the new version.
+
+### Example
+
+Check that you have the new version:
+
+    > sf-mod-check --version
+    sf-mod-check 0.23.0 by Richard Bejtlich - GPL-3.0 - https://github.com/taosecurity/sf-mod-check
+
 ## 2026-11-25 (update 3)
 
 ### What's new
