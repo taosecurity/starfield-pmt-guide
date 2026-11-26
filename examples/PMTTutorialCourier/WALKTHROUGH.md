@@ -12,7 +12,9 @@ else in the output was changed; `...` marks lines left out.
 **Tools, versions and setup** are the same as for Second Wind: see `..\PMTTutorialSecondWind\WALKTHROUGH.md`,
 sections "Tools and versions" and "0. Set up the tools (once)" (sf-mod-build 0.4.2 and its 0.4.1 template, BuildKit
 0.5.0 from NuGet, Mutagen 0.54.4, sf-mod-check 0.16.0, sf-papyrus-ref 0.2.4 with `build-local` done, sf-test-plan
-0.4.0, sf-cut-check 0.2.0, the Steam Creation Kit, .NET SDK 9.0.321, Python 3.13).
+0.4.0, sf-cut-check 0.2.0, the Steam Creation Kit, .NET SDK 9.0.321, Python 3.13). Those are the versions of the
+recorded 0.1.0 and 0.1.1 runs. The 0.1.2 build used sf-mod-check 0.16.1, and its test-plan page was rebuilt with
+sf-test-plan 0.4.1 on 2026-11-26; the guide's pages name the current versions.
 
 ## Version 0.1.2 (2026-11-24, passed 2026-11-26): the note is a quest item
 
@@ -34,8 +36,9 @@ quest at stage 10. The game's own quest notes can't leave the inventory, because
 
 **The in-game test on 2026-11-26** passed every check that was played: 7 of 8 marks passed, and the one failure
 was an error in the plan, not the mod (below). The note couldn't be dropped, sold or moved to the ship's cargo
-before it was read, and reading it still started stage 20. papyrus-log-check 0.4.3 passed all 13 of the mod's
-rules, the save read the quest as "stopped, completed, stage 30", and sf-save-health found no problems. Two things
+before it was read, and reading it still started stage 20. papyrus-log-check 0.4.3 passed all 13 of its checks (the
+rule file's 12 rules and its own script-error check), the save read the quest as "stopped, completed, stage 30",
+and sf-save-health found no problems. Two things
 the test taught:
 
 - **The Missions menu never lists a finished Activity under Completed.** The plan expected the quest there, so

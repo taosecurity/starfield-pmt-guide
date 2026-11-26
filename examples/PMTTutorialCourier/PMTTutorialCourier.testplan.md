@@ -20,6 +20,7 @@ This plan tests A Courier's Request (PMTTutorialCourier) 0.1.2, the quest mod fr
   log: started
 - [ ] Open Settings > Gameplay Options.
   Expect: a group named "A Courier's Request (PMT Tutorial)" with "Show Debug Messages (PC only)", set to off.
+  smoke: yes
 - [ ] Before you reach New Atlantis, open the console and type `getstage PTCR_Quest`.
   Expect: 0, because no stage has been set yet.
 
@@ -31,6 +32,7 @@ This plan tests A Courier's Request (PMTTutorialCourier) 0.1.2, the quest mod fr
   log: stage-10
 - [ ] Open the Missions menu and look under Activities.
   Expect: "A Courier's Request" is listed with the objective "Read the courier's note".
+  smoke: yes
 - [ ] Look at the ground where you stood when the note arrived.
   Expect: no copy of the note lies in the world; the only copy is in your inventory.
 - [ ] Type `getstage PTCR_Quest` in the console.
@@ -43,7 +45,7 @@ This plan tests A Courier's Request (PMTTutorialCourier) 0.1.2, the quest mod fr
   Expect: the note's text asks for 5 Iron. The first objective is completed, and "Collect 5 Iron" appears.
   smoke: yes
   log: onread
-  note: Only the `OnRead` log line proves the read: `setstage PTCR_Quest 20` writes the same stage 20 line as a read does.
+  note: Do check 6.1 (the note is a quest item) before this one: it needs the note unread. Only the `OnRead` log line proves the read: `setstage PTCR_Quest 20` writes the same stage 20 line as a read does.
 - [ ] Type `getstage PTCR_Quest` in the console.
   Expect: 20.
   log: stage-20
@@ -64,7 +66,7 @@ This plan tests A Courier's Request (PMTTutorialCourier) 0.1.2, the quest mod fr
   Expect: "A Courier's Request" is no longer listed under Activities, and it isn't listed under Completed either, because the game never lists a finished Activity there (a vanilla Activity isn't listed either).
   smoke: yes
   log: stage-30-stopped
-  note: Version 0.1.0 left the quest running, so the Completed tab did not list it. If it still isn't listed, mark this check Fail and note what the Activities tab shows.
+  note: Mark this check Fail only if the quest is still listed under Activities; say what that tab shows. An empty Completed tab is expected and is not a failure.
 - [ ] Type `getstage PTCR_Quest` in the console.
   Expect: 30.
 - [ ] Open your inventory, select the note and drop it.

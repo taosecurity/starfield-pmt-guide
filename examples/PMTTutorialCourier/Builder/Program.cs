@@ -117,8 +117,8 @@ quest.Aliases.Add(playerAlias);
 
 // 0.1.2: the note's alias. It starts empty (Optional) and the quest script fills it with ForceRefTo at stage 10.
 // The Quest Item flag makes the note a quest item while the alias holds it, as the game's own quest notes are:
-// it can't be dropped, sold or stored, so the player can always read it. The quest's Stop() at stage 30 clears
-// the alias, and the note becomes a normal item.
+// it can't be dropped, sold or stored, so the player can always read it. Stage 30 clears the alias with
+// Alias_Note.Clear() before Stop(), and the note becomes a normal item.
 quest.Aliases.Add(new QuestReferenceAlias
 {
     ID = NoteAliasId,
