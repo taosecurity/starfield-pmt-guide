@@ -1,5 +1,5 @@
 # PMTTutorialCourier test plan
-run: pmttutorialcourier-0.1.2
+run: pmttutorialcourier-0.1.2b
 mod: PMTTutorialCourier
 version: 0.1.2
 zip: PMTTutorialCourier-0.1.2.zip
@@ -33,6 +33,11 @@ This plan tests A Courier's Request (PMTTutorialCourier) 0.1.2, the quest mod fr
 - [ ] Open the Missions menu and look under Activities.
   Expect: "A Courier's Request" is listed with the objective "Read the courier's note".
   smoke: yes
+- [ ] Before you read the note, open your inventory, select the note and try to drop it. Then, at a vendor, look for the note in your items to sell, and at your ship's cargo hold, try to store it.
+  Expect: the note can't be dropped or sold (since 0.1.2 it's a quest item until the quest ends, as the game's own quest notes are): the game won't drop it, it isn't in the vendor's sell list, and it can't be stored. The objective stays at "Read the courier's note".
+  smoke: yes
+  log: note-alias
+  note: If the note does drop, look for it on the ground and say whether you can see it: 0.1.1 placed it disabled, so a dropped note could stay invisible. If you can't read it, type `getstage PTCR_Quest` (it should say 10), then type `setstage PTCR_Quest 20` to go on. Mark this check Fail either way.
 - [ ] Look at the ground where you stood when the note arrived.
   Expect: no copy of the note lies in the world; the only copy is in your inventory.
 - [ ] Type `getstage PTCR_Quest` in the console.
@@ -45,11 +50,14 @@ This plan tests A Courier's Request (PMTTutorialCourier) 0.1.2, the quest mod fr
   Expect: the note's text asks for 5 Iron. The first objective is completed, and "Collect 5 Iron" appears.
   smoke: yes
   log: onread
-  note: Do check 6.1 (the note is a quest item) before this one: it needs the note unread. Only the `OnRead` log line proves the read: `setstage PTCR_Quest 20` writes the same stage 20 line as a read does.
+  note: Only the `OnRead` log line proves the read: `setstage PTCR_Quest 20` writes the same stage 20 line as a read does.
 - [ ] Type `getstage PTCR_Quest` in the console.
   Expect: 20.
   log: stage-20
   note: If reading the note doesn't start stage 20, note what `getstage PTCR_Quest` says, then type `setstage PTCR_Quest 20` to go on, and mark this check and the one before it Fail.
+- [ ] Save now, while the quest is at stage 20, quit to the main menu and load the save.
+  Expect: the objective "Collect 5 Iron" is still shown, and collecting the Iron in the next section still moves the quest on.
+  smoke: yes
 
 ## 4 Stage 30: collect the Iron
 
@@ -83,22 +91,6 @@ This plan tests A Courier's Request (PMTTutorialCourier) 0.1.2, the quest mod fr
   Expect: no second note, and the stage doesn't change.
 - [ ] Turn on Show Debug Messages (PC only), then pick up one more Iron before the quest ends.
   Expect: a `[PTCR] Iron check` line shows on screen as well as in the log.
-
-## 6 The note is a quest item
-
-Since 0.1.2 the note is a quest item until the quest ends, as the game's own quest notes are. Do this check before you read the note.
-
-- [ ] When the note arrives, open your inventory, select the note and try to drop it. Then, at a vendor, look for the note in your items to sell, and at your ship's cargo hold, try to store it.
-  Expect: the note can't be dropped or sold (it's a quest item): the game won't drop it, it isn't in the vendor's sell list, and it can't be stored. The objective stays at "Read the courier's note", and reading the note afterwards still starts stage 20.
-  smoke: yes
-  log: note-alias
-  note: If the note does drop, look for it on the ground and say whether you can see it: 0.1.1 placed it disabled, so a dropped note could stay invisible. If you can't read it, type `getstage PTCR_Quest` (it should say 10), then type `setstage PTCR_Quest 20` to go on. Mark this check Fail either way.
-
-## 7 Save and load
-
-- [ ] Save while the quest is at stage 10 or 20, quit to the main menu and load the save.
-  Expect: the objective is still shown, and reading the note or collecting the Iron still moves the quest on.
-  smoke: yes
 
 ## Log checks
 

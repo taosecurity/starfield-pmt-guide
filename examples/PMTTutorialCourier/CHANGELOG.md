@@ -12,7 +12,7 @@ Makes the courier's note a quest item, so the quest can't get stuck at stage 10.
   until the quest ends, as the game's own quest notes can't. Stage 30 clears the alias (`Clear()`) before the quest
   stops, so the note becomes a normal item. Both steps write a `[PTCR]` log line.
 - The Player alias also gets the empty voice type, as the Creation Kit writes it.
-- The test plan's section 6 now checks that the note can't be dropped or sold, and section 4 checks that it can be
+- The test plan now checks that the note can't be dropped or sold (check 2.3 since 2026-11-26), and check 4.5 that it can be
   dropped after the quest ends.
 - Built with sf-mod-build 0.4.2, sf-mod-check 0.16.1 and sf-papyrus-ref 0.2.4.
 - Passed its in-game test on 2026-11-26. That test also corrected the 0.1.1 entry below: the game never lists a

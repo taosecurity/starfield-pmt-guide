@@ -7,7 +7,7 @@
  "expect": [
   {"id": "started", "re": "(?i)\\[PTCR\\] started", "means": "Step 1.1: Start a new game and finish the character creator.; Step L.1: The quest script started at the beginning of the game."},
   {"id": "stage-10", "re": "(?i)\\[PTCR\\] stage 10: note given", "means": "Step 2.1: Play until you first arrive in New Atlantis (or land at the New Atlantis spaceport later in the game)."},
-  {"id": "note-alias", "re": "(?i)\\[PTCR\\] stage 10: Note alias filled with .*\\(quest item\\)", "means": "Step 6.1: When the note arrives, open your inventory, select the note and try to drop it. Then, at a vendor, look for the note in your items to sell, and at your ship's cargo hold, try to store it."},
+  {"id": "note-alias", "re": "(?i)\\[PTCR\\] stage 10: Note alias filled with .*\\(quest item\\)", "means": "Step 2.3: Before you read the note, open your inventory, select the note and try to drop it. Then, at a vendor, look for the note in your items to sell, and at your ship's cargo hold, try to store it."},
   {"id": "onread", "re": "(?i)\\[PTCR\\] OnRead from", "means": "Step 3.1: Read the note from your inventory (Inventory > Notes, then Read). Only a real read writes this line."},
   {"id": "stage-20", "re": "(?i)\\[PTCR\\] stage 20: note read", "means": "Step 3.2: Type getstage PTCR_Quest in the console. Stage 20 started; setstage PTCR_Quest 20 writes this line too, so it doesn't prove a read (the onread rule does)."},
   {"id": "iron-check", "re": "(?i)\\[PTCR\\] Iron check: \\d+ of 5", "means": "Step 4.1: Close every menu (inventory, Missions, the console) before you take the 5th Iron, so you can see the HUD line that follows. Then pick up or buy Iron until you hold 5."},

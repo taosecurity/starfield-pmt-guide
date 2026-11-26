@@ -29,12 +29,12 @@ quest at stage 10. The game's own quest notes can't leave the inventory, because
 - **Script:** stage 10 adds the note to the inventory and then runs `Alias_Note.ForceRefTo(NoteRef)`. Stage 30 runs
   `Alias_Note.Clear()` after `CompleteQuest()` and before `Stop()`, so the note becomes a normal item. Both steps
   log a `[PTCR]` line.
-- **Test plan:** section 6 checks that the note can't be dropped, sold or stored before it is read, and check 4.5
+- **Test plan:** check 2.3 (section 6 at the time of the test) checks that the note can't be dropped, sold or stored before it is read, and check 4.5
   that it can be dropped after the quest ends.
 - **Build:** sf-mod-build 0.4.2, sf-mod-check 0.16.1 and sf-papyrus-ref 0.2.4. The outputs further down are still
   from the 0.1.1 run.
 
-**The in-game test on 2026-11-26** passed every check that was played: 7 of 8 marks passed, and the one failure
+**The in-game test on 2026-11-26** passed every check that was played: 7 of the 8 smoke checks the plan had then passed, and the one failure
 was an error in the plan, not the mod (below). The note couldn't be dropped, sold or moved to the ship's cargo
 before it was read, and reading it still started stage 20. papyrus-log-check 0.4.3 passed all 13 of its checks (the
 rule file's 12 rules and its own script-error check), the save read the quest as "stopped, completed, stage 30",
